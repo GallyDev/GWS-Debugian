@@ -2,26 +2,30 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.0
+		Version: 1.0.1
 	*/
 
 	// if loggedin add something to the admin bar
 
 	define('GWS_DEBUGIAN_COLOR', '#f0f');
+	
+	
+	if(isset($_GET['gally_access_install'])){
+		
+		$gally_access = __DIR__.'/dependencies/gally_access';
+		if(is_dir($gally_access)) rename($gally_access, __DIR__.'/../../../gally_access');
+
+		header('Location: /gally_access/?install');
+	}
 
 	add_action('admin_bar_menu', 'gws_debugian_admin_bar_menu', 50);
 	function gws_debugian_admin_bar_menu($admin_bar) {
 		// if loggedin but in frontend
+		$doDebugian = false;
+
 		if (is_user_logged_in() && !is_admin()) {
-			
-			$admin_bar->add_menu(array(
-				'id' => 'gws-debugian',
-				'title' => 'Debugian',
-				'href' => '#',
-				'meta' => array(
-					'class' => 'gws-debugian',
-				),
-			));
+
+			$doDebugian = true;
 
 			$admin_bar->add_menu(array(
 				'id' => 'gws-debugian-visual-css-log',
@@ -33,7 +37,37 @@
 					'onclick' => 'return dbg_toggle("visual_css_log")',
 				),
 			));
-			
+		}elseif (is_user_logged_in()){
+			// check if folder ../../../gally_access exists
+			$gally_access = __DIR__.'/../../../gally_access';
+			if (!is_dir($gally_access)) {
+				$doDebugian = true;
+				$admin_bar->add_menu(array(
+					'id' => 'gws-debugian-gally-access',
+					'title' => 'Gally Access installieren',
+					'href' => '?gally_access_install',
+					'parent' => 'gws-debugian'
+				));
+			}else{
+				$doDebugian = true;
+				$admin_bar->add_menu(array(
+					'id' => 'gws-debugian-gally-access',
+					'title' => 'Gally Access neu verschlüsseln',
+					'href' => '/gally_access/?install',
+					'parent' => 'gws-debugian'
+				));
+			}
+		}
+
+		if($doDebugian){
+			$admin_bar->add_menu(array(
+				'id' => 'gws-debugian',
+				'title' => 'Debugian',
+				'href' => '#',
+				'meta' => array(
+					'class' => 'gws-debugian',
+				),
+			));
 		}
 	}
 
