@@ -1,0 +1,7 @@
+# BEGIN GALLY ACCESS
+	RewriteEngine On
+
+	#GallyAllowfrom
+
+	RewriteRule ^(.*)$ /gally_access/ [L,R=302]
+# END GALLY ACCESS

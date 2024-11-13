@@ -1,0 +1,193 @@
+:root{
+	font-size: 18px;
+	--gap: clamp(1em, 5vw, 2em);
+
+	--font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+	--background: #f4f4f4;
+	--foreground: #fff;
+	--color: #000;
+
+	--accent-A: rgba(0 0 0 .5);
+	--accent-B: #ff7900;
+
+	--trans-main: all .3s ease-in-out;
+
+}
+
+body{
+	background: var(--background);
+	color: var(--color);
+	font-family: var(--font);
+	font-size: 1em;
+	line-height: 1.5;
+	margin: 0;
+	height: 100vh;
+	height: 100svh;
+	padding: var(--gap);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 100;
+	hyphens: none;
+	overflow: hidden;
+}
+
+body::after{
+	content: 'LOGIN';
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+	font-size: calc(100vw / 3.05);
+	font-weight: 900;
+	line-height: 1;
+	word-break: keep-all;
+	opacity: .03;
+	z-index: -1;
+}
+
+h1{
+	font-size: 2em;
+	margin: 0;
+	padding: 0;
+	font-weight: 900;
+	text-transform: uppercase;
+	line-height: 1;
+}
+
+small{
+	font-size: .5em;
+	color: var(--accent-B);
+	font-weight: 500;
+}
+
+p{
+	margin: 0;
+	padding: 0;
+	margin-bottom: var(--gap);
+}
+
+b{
+	color: var(--accent-B);
+}
+
+a{
+	color: var(--accent-B);
+	transition: var(--trans-main);
+}
+
+.support{
+	font-size: .8em;
+	margin-top: var(--gap);
+	margin-bottom: 0;
+	opacity: .5;
+	transition: var(--trans-main);
+}
+
+.support:hover{
+	opacity: 1;
+}
+
+a:hover{
+	color: var(--color);
+}
+
+#logo{
+	max-width: 200px;
+	width: 15em;
+	display: block;
+	height: auto;
+}
+
+hr{
+	background: black;
+    height: 2px;
+    width: 100%;
+    border: 0;
+    opacity: .025;
+}
+
+.modal{
+	background: var(--foreground);
+	box-shadow: 0 0 50px var(--accent-A);
+	padding: var(--gap);
+	border-radius: calc(var(--gap) / 4);
+	gap: calc(var(--gap) / 2);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: start;
+	max-width: 800px;
+}
+
+.modal input[type="submit"]{
+	text-decoration: none;
+	background: var(--accent-B);
+	display: block;
+	padding: 0.5rem;
+	border-radius:0;
+	border: none;
+	width: 20%;
+	height: 44px;
+	color: var(--foreground);
+	transition: var(--trans-main);
+	font-size: 1.5em;
+}
+
+.modal input[type="submit"]:hover{
+	background: var(--color);
+	cursor: pointer !important;
+}
+
+
+form{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+
+.input-field {
+	position: relative;
+	width: 80%;
+	height: 44px;
+	line-height: 44px;
+  }
+
+label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	color: var(--color);
+	transition: 0.2s all;
+	cursor: text;
+	pointer-events: none;
+}
+input {
+	width: 100%;
+	border: 0;
+	outline: 0;
+	padding: 0.5rem 0;
+	border-bottom: 2px solid var(--color);
+	box-shadow: none;
+	color: var(--color);
+	font-size: 1em;
+	font-weight: normal;
+}
+  input:invalid {
+	outline: 0;
+  }
+  input:focus,
+  input:valid {
+	border-color: var(--accent-B);
+	background-color: var(--foreground);
+  }
+  input:focus~label,
+  input:valid~label {
+	font-size: .8em;
+	top: -2.5em;
+	color: var(--accent-B);
+  }
