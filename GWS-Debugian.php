@@ -2,13 +2,37 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.0.1
+		Version: 1.1.0
 	*/
 
 	// if loggedin add something to the admin bar
 
 	define('GWS_DEBUGIAN_COLOR', '#f0f');
 	
+	if(isset($_POST['submit'])){
+		$settings = file_get_contents(__DIR__.'/settings.json');
+		$settings = json_decode($settings, true);
+
+		$settings['post_types'] = $_POST['gws_debugian_post_types']??[];
+
+		file_put_contents(__DIR__.'/settings.json', json_encode($settings));
+
+		// show success message
+		add_action('admin_notices', 'gws_debugian_settings_saved');
+
+		function gws_debugian_settings_saved() {
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p>Debugian hat sich das gemerkt. 👉👈</p>
+			</div>
+			<?php
+		}
+	}
+
+	$settings = file_get_contents(__DIR__.'/settings.json');
+	$settings = json_decode($settings, true);
+
+	if(!isset($settings['post_types'])) $settings['post_types'] = ['page'];
 	
 	if(isset($_GET['gally_access_install'])){
 		
@@ -138,4 +162,118 @@
 			</style>
 			<?php
 		}
+	}
+
+	// add CSS to footer in backend
+	add_action('admin_footer', 'gws_debugian_admin_footer');
+	function gws_debugian_admin_footer() {
+		global $settings;
+		$types = $settings['post_types'];
+		$types = '.post-type-'.implode(', .post-type-', $types);
+
+		?>
+		<style>
+			:is(<?=$types?>) h1.wp-block-post-title{
+				/* all: unset; */
+				font-family: monospace !important;
+				font-weight: normal !important;
+				text-transform: none !important;
+				font-size: 2em;
+				background: #eee;
+				padding: .5em;
+				border: 1px solid #ccc;	
+				border-radius: .1em;
+				position: relative;
+
+			}
+			:is(<?=$types?>) h1.wp-block-post-title:before{
+				content: 'Dokumentname';
+				font-size: .7em;
+				position: absolute;
+				bottom: 100%;
+				background: #eee;
+				color: #999;
+				border: 1px solid #ccc;
+				border-bottom: none;
+				padding: .5em 1em .25em;
+				border-radius:.5em .5em 0 0;
+				left: -1px;
+				cursor:pointer;
+			}
+
+			body:is(<?=$types?>) .is-root-container h1 ~ h1,
+			body:is(<?=$types?>) .is-root-container :has(h1) ~ h1,
+			body:is(<?=$types?>) .is-root-container :has(h1) ~ :has(h1) h1,
+			body:is(<?=$types?>) .is-root-container h1 ~ :has(h1) h1,
+			body:not(<?=$types?>) .is-root-container h1
+			{
+				background: #800 !important;
+				color: #fff !important;
+				font-family: monospace !important;
+				font-weight: normal !important;
+				text-transform: none !important;
+				color: #f00 !important;
+				font-size: 2em;
+				padding: .5em;
+				border: 5px solid #f00;	
+				border-radius: .1em;
+				position: relative;
+
+				&:after{
+					content: 'Es darf nur ein H1 geben pro Dokument';
+					font-size: .5em;
+					color: #fff;
+					display:block;
+					padding-top:1em;
+				}
+			}
+
+			strong.gws{
+				font-family: monospace;
+			}
+		</style>
+		<?php
+	}
+
+	// settings page
+	add_action('admin_menu', 'gws_debugian_settings_menu');
+	function gws_debugian_settings_menu() {
+		add_options_page('GWS Debugian', '<strong class="gws">GWS</strong> Debugian', 'manage_options', 'gws-debugian', 'gws_debugian_settings_page');
+	}
+
+	function gws_debugian_settings_page() {
+		global $settings;
+		?>
+		<div class="wrap">
+			<h1><strong class="gws">GWS</strong> Debugian</h1>
+			<form method="post">
+				
+				<table class="form-table" role="presentation">
+					<tbody>
+						<tr>
+							<th scope="row">
+								Post-Types mit Dokumentname<br>
+								<small>ohne automatisches H1</small>
+							</th>
+							<td><?php
+								// get all post types
+								$post_types = get_post_types(array('public' => true), 'objects');
+								
+								foreach ($post_types as $post_type) {
+									if($post_type->name == 'attachment') continue;
+									?>
+									<label>
+										<input type="checkbox" name="gws_debugian_post_types[]" value="<?=$post_type->name?>" <?=in_array($post_type->name, $settings['post_types']) ? 'checked' : ''?>>
+										<?=$post_type->label?>
+									</label><br>
+									<?php
+								}
+							?></td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Änderungen speichern"></p>
+			</form>
+		</div>
+		<?php
 	}
