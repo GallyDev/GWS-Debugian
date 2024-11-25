@@ -12,3 +12,5 @@ Mit einem Klick kann Gally Access installiert & aktiviert werden. Auch kann Gall
 In den Einstellungen vom Debugian kann definiert werden, welche Post-Types im Front-End den Post-Title nicht automatisch als H1 darstellen. Diese Post-Types erhalten dann eine Darstellung des Titels.
 ### H1-Checker
 Debugian überprüft beim Editieren, dass bloss ein H1 vorkommt. Mehrfache Verwendungen von H1 werden hervorgehoben.
+### Hosting-Zugangsdaten
+In den Einstellungen vom Debugian können Hosting-Infos für die Kund*innen hinterlegt werden. Alle User ohne @ally-websolutions.com E-Mail sehen bloss die Info und können nichts ändern.

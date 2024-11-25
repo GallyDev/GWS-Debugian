@@ -2,12 +2,13 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.1.0
+		Version: 1.2.0
 	*/
 
 	// if loggedin add something to the admin bar
 
 	define('GWS_DEBUGIAN_COLOR', '#f0f');
+	define('SUPERADMIN_DOMAIN', 'gally-websolutions');
 	
 	if(isset($_POST['submit'])){
 		$settings = file_get_contents(__DIR__.'/settings.json');
@@ -24,6 +25,28 @@
 			?>
 			<div class="notice notice-success is-dismissible">
 				<p>Debugian hat sich das gemerkt. 👉👈</p>
+			</div>
+			<?php
+		}
+	}
+
+	if(isset($_POST['submit_hosting'])){
+		$settings = file_get_contents(__DIR__.'/settings.json');
+		$settings = json_decode($settings, true);
+
+		$settings['hosting'] = 	isset($_POST['hosting']['enabled']) ? $_POST['hosting']	: null;
+		$settings['email'] = 	isset($_POST['email']['enabled'])	? $_POST['email']	: null;
+		$settings['ftp'] = 		isset($_POST['ftp']['enabled'])	 	? $_POST['ftp']		: null;
+
+		file_put_contents(__DIR__.'/settings.json', json_encode($settings));
+
+		// show success message
+		add_action('admin_notices', 'gws_debugian_settings_saved');
+
+		function gws_debugian_settings_saved() {
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p>Debugian hat sich das für das Kundi gemerkt. 👉👈</p>
 			</div>
 			<?php
 		}
@@ -238,42 +261,258 @@
 	// settings page
 	add_action('admin_menu', 'gws_debugian_settings_menu');
 	function gws_debugian_settings_menu() {
-		add_options_page('GWS Debugian', '<strong class="gws">GWS</strong> Debugian', 'manage_options', 'gws-debugian', 'gws_debugian_settings_page');
+		if(strpos(wp_get_current_user()->user_email, SUPERADMIN_DOMAIN)){
+			add_options_page('GWS Debugian', '<strong class="gws">GWS</strong> Debugian', 'manage_options', 'gws-debugian', 'gws_debugian_settings_page');
+		}else{
+			add_options_page('GWS Zugangsdaten', '<strong class="gws">GWS</strong> Zugangsdaten', 'manage_options', 'gws-debugian', 'gws_debugian_settings_page');
+		}
 	}
 
 	function gws_debugian_settings_page() {
 		global $settings;
+		
+		$superadmin = strpos(wp_get_current_user()->user_email, SUPERADMIN_DOMAIN);
+
+		$url = get_site_url();
+		$url = str_replace(['https://', 'http://', '/'], '', $url);
+
 		?>
 		<div class="wrap">
+
+		<?php if($superadmin && !isset($_GET['edit'])): ?>
 			<h1><strong class="gws">GWS</strong> Debugian</h1>
-			<form method="post">
-				
-				<table class="form-table" role="presentation">
-					<tbody>
-						<tr>
-							<th scope="row">
-								Post-Types mit Dokumentname<br>
-								<small>ohne automatisches H1</small>
-							</th>
-							<td><?php
-								// get all post types
-								$post_types = get_post_types(array('public' => true), 'objects');
-								
-								foreach ($post_types as $post_type) {
-									if($post_type->name == 'attachment') continue;
-									?>
+				<form method="post" action="?page=gws-debugian">
+					
+					<table class="form-table" role="presentation">
+						<tbody>
+							<tr>
+								<th scope="row">
+									Post-Types mit Dokumentname<br>
+									<small>ohne automatisches H1</small>
+								</th>
+								<td><?php
+									// get all post types
+									$post_types = get_post_types(array('public' => true), 'objects');
+									
+									foreach ($post_types as $post_type) {
+										if($post_type->name == 'attachment') continue;
+										?>
+										<label>
+											<input type="checkbox" name="gws_debugian_post_types[]" value="<?=$post_type->name?>" <?=in_array($post_type->name, $settings['post_types']) ? 'checked' : ''?>>
+											<?=$post_type->label?>
+										</label><br>
+										<?php
+									}
+								?></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Änderungen speichern"></p>
+				</form>
+			<?php endif; ?>
+
+			<h1>
+				<strong class="gws">GWS</strong> Hosting-Zugangsdaten
+				<?php if($superadmin && !isset($_GET['edit'])): ?>
+					<a href="/wp-admin/options-general.php?page=gws-debugian&edit" class="page-title-action">Anpassen</a>
+				<?php endif; ?>
+			</h1>
+			<style>
+				.page-title-action{
+					margin-left: 1em;
+				}
+				th,td{
+					text-align: left;
+					vertical-align: top;
+					max-width: 50ch;
+				}
+				table span{
+					cursor: pointer;
+					user-select: all;
+					display: inline-block;
+					padding: .25em .5em;
+					background: #eef;
+					border: 1px solid #ccc;
+					border-radius: .25em;
+				}
+				table span:hover{
+					background: #ddf;
+				}
+				table span.copied{
+					background: #efe;
+				}
+				table table td{
+					padding: 0 1ch 0 0;
+					vertical-align: middle;
+				}
+				[scope=row],[scope=row]+*{
+					padding-bottom: .5em;
+					padding-right: 1em;
+				}
+				[scope=row]:not(.first){
+					padding-top: calc(.45em + 1px);
+				}
+			</style>
+			<?php if(isset($_GET['edit']) && $superadmin): ?>
+				<form method="post" action="?page=gws-debugian">
+					<table>
+						<tbody>
+							<tr>
+								<th scope="row">
 									<label>
-										<input type="checkbox" name="gws_debugian_post_types[]" value="<?=$post_type->name?>" <?=in_array($post_type->name, $settings['post_types']) ? 'checked' : ''?>>
-										<?=$post_type->label?>
-									</label><br>
-									<?php
-								}
-							?></td>
-						</tr>
+										<input type="checkbox" name="hosting[enabled]" value="1" <?=isset($settings["hosting"]) ? 'checked' : ''?>>
+										Hostingverwaltung
+									</label>
+								</th>
+								<td>
+									<input type="text" name="hosting[label]" value="<?=$settings["hosting"]["label"]??''?>" placeholder="Label">
+									<input type="text" name="hosting[url]" value="<?=$settings["hosting"]["url"]??''?>" placeholder="URL">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									Login / Passwort
+								</th>
+								<td>
+									<input type="text" name="hosting[username]" value="<?=$settings["hosting"]["username"]??''?>" placeholder="Benutzername">
+									<input type="text" name="hosting[password]" value="<?=$settings["hosting"]["password"]??''?>" placeholder="Passwort">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label>
+										<input type="checkbox" name="email[enabled]" value="1" <?=isset($settings["email"]) ? 'checked' : ''?>>
+										E-Mail
+									</label>
+								</th>
+								<td>
+									<table>
+										<tr>
+											<td>POP-Server</td>
+											<td><input type="text" name="email[pop]" value="<?=$settings["email"]["pop"]??''?>" placeholder="Adresse"></td>
+										</tr>
+										<tr>
+											<td>SMTP-Server</td>
+											<td><input type="text" name="email[smtp]" value="<?=$settings["email"]["smtp"]??''?>" placeholder="Adresse"></td>
+										</tr>
+										<tr>
+											<td>Webmail</td>
+											<td><input type="text" name="email[webmail]" value="<?=$settings["email"]["webmail"]??''?>" placeholder="Link"></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label>
+										<input type="checkbox" name="ftp[enabled]" value="1" <?=isset($settings["ftp"]) ? 'checked' : ''?>>
+										FTP
+									</label>
+								</th>
+								<td>
+									<table>
+										<tr>
+											<td>Server</td>
+											<td><input type="text" name="ftp[server]" value="<?=$settings["ftp"]["server"]??''?>" placeholder="Adresse"></td>
+										</tr>
+										<tr>
+											<td>Login</td>
+											<td><input type="text" name="ftp[login]" value="<?=$settings["ftp"]["login"]??''?>" placeholder="Benutzername"></td>
+										</tr>
+										<tr>
+											<td>Passwort</td>
+											<td><input type="text" name="ftp[password]" value="<?=$settings["ftp"]["password"]??''?>" placeholder="Passwort"></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="submit"><input type="submit" name="submit_hosting" id="submit" class="button button-primary" value="Änderungen speichern"></p>
+				</form>
+			
+			<?php else: ?>
+				<table>
+					<tbody>
+						<?php if(isset($settings["hosting"])): ?>
+							<tr>
+								<th scope="row" class="first">
+									Hostingverwaltung
+								</th>
+								<td>
+									<a href="<?=$settings["hosting"]["url"]?>" target="_blank"><?=$settings["hosting"]["label"]?></a><br>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									Login / Passwort
+								</th>
+								<td>
+									<span><?=$settings["hosting"]["username"]?></span> / 
+									<span><?=$settings["hosting"]["password"]?></span>
+									<br>
+									<small>Hier können Sie E-Mailadressen verwalten. Wenn Sie Ihr E-Mailpasswort ändern oder einen Autoresponder einrichten möchten, können Sie sich hier alternativ mit Ihrer E-Mailadresse und Passwort einloggen.</small>
+								</td>
+							</tr>
+						<?php endif; ?>
+						<?php if(isset($settings["email"])): ?>
+							<tr>
+								<th scope="row">
+									E-Mail
+								</th>
+								<td>
+									<table>
+										<tr>
+											<td>POP-Server</td>
+											<td><span><?=$settings["email"]["pop"]?></span></td>
+										</tr>
+										<tr>
+											<td>SMTP-Server</td>
+											<td><span><?=$settings["email"]["smtp"]?></span></td>
+										</tr>
+									</table>
+									<small>Server erfordert Authentifizierung: E-Mail & Passwort</small><br>
+									Webmail: <a href="<?=$settings["email"]["webmail"]?>" target="_blank"><?=$settings["email"]["webmail"]?></a>
+								</td>
+							</tr>
+						<?php endif; ?>
+						<?php if(isset($settings["ftp"])): ?>
+							<tr>
+								<th scope="row">
+									FTP
+								</th>
+								<td>
+									<table>
+										<tr>
+											<td>Server</td>
+											<td><span><?=$settings["ftp"]["server"]?></span></td>
+										</tr>
+										<tr>
+											<td>Login</td>
+											<td><span><?=$settings["ftp"]["login"]?></span></td>
+										</tr>
+										<tr>
+											<td>Passwort</td>
+											<td><span><?=$settings["ftp"]["password"]?></span></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						<?php endif; ?>
 					</tbody>
 				</table>
-				<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Änderungen speichern"></p>
-			</form>
+				<script>
+					document.querySelectorAll('span').forEach(span => {
+						span.addEventListener('click', () => {
+							navigator.clipboard.writeText(span.innerText);
+							span.classList.add('copied');
+							setTimeout(() => {
+								span.classList.remove('copied');
+							}, 1000);
+						});
+					});
+				</script>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
