@@ -14,6 +14,7 @@
 			$gdir = str_replace('=', '', $gdir);
 			$gdir = str_replace('+', '', $gdir);
 			$gdir = str_replace('/', '', $gdir);
+			$gidr = "acc$gdir";
 
 			// rename directory
 			rename($idir, $gdir);
