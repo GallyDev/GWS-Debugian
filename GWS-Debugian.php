@@ -191,7 +191,7 @@
 	add_action('admin_footer', 'gws_debugian_admin_footer');
 	function gws_debugian_admin_footer() {
 		global $settings;
-		$types = $settings['post_types'];
+		$types = $settings['post_types'] ?? ['none'];
 		$types = '.post-type-'.implode(', .post-type-', $types);
 
 		?>
