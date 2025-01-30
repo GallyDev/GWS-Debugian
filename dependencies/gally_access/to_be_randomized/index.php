@@ -54,7 +54,12 @@
 		<p>
 			Die IP-Adresse [<?=$ip?>] wurde in die Liste der erlaubten IPs eingetragen.
 		</p>
-		<a href="../../../wp-login.php">Zum Login</a>
+		<span>
+			<a href="../../../wp-login.php">Zum Login</a> | 
+			<a href="/">Zur Website</a>
+
+			<a href="https://www.gally-websolutions.com/gaw/?link=<?= urlencode($_SERVER['SCRIPT_URI']) ?>" target="_blank">Link speichern</a>
+		</span>
 	</div>
 </body>
 </html>
