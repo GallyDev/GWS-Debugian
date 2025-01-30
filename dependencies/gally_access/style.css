@@ -76,6 +76,18 @@ a{
 	color: var(--accent-B);
 	transition: var(--trans-main);
 }
+.modal span{
+	width: 100%;
+}
+span a:last-child{
+	float:right;
+	background: var(--accent-B);
+	color: var(--foreground);
+	padding: 0.5em;
+	border-radius: .25;
+	margin: -.5em 0 0;
+	text-decoration: none;
+}
 
 .support{
 	font-size: .8em;
