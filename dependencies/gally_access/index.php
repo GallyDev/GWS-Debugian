@@ -14,7 +14,7 @@
 			$gdir = str_replace('=', '', $gdir);
 			$gdir = str_replace('+', '', $gdir);
 			$gdir = str_replace('/', '', $gdir);
-			$gdir = "acc$gdir";
+			$gidr = "acc$gdir";
 
 			// rename directory
 			rename($idir, $gdir);
@@ -166,7 +166,10 @@
 		</g>
 	</svg>
 	<hr>
-		<small>Ihr sicherer Zugang</small>
+		<small>
+			Ihr sicherer Zugang
+			<a href="https://www.gally-websolutions.com/gaw/" target="_blank">zum Gally Access Webspeicher</a>
+		</small>
 		<h1>Gally Access</h1>
 		<?php if(isset($_GET['install'])){ ?>
 			<p>
@@ -190,7 +193,9 @@
 
 				<input type="submit" value="&#8618">
 			</form>
-			<p class="support">Bei Fragen, wenden Sie sich einfach an unseren Support: <a href="mailto:support@gally-websolutions.com" alt="Supportmail Gally Websolutions" title="Supportmail Gally Websolutions">support@gally-websolutions.com</a>
+			<p class="support">
+				Bei Fragen, wenden Sie sich einfach an unseren Support: <a href="mailto:support@gally-websolutions.com" alt="Supportmail Gally Websolutions" title="Supportmail Gally Websolutions">support@gally-websolutions.com</a>.
+			</p>
 		<?php } ?>
 	</div>
 	
