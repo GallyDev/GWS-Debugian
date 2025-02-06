@@ -2,7 +2,7 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.2.1
+		Version: 1.2.2
 	*/
 
 	// if loggedin add something to the admin bar
@@ -10,7 +10,7 @@
 	define('GWS_DEBUGIAN_COLOR', '#f0f');
 	define('SUPERADMIN_DOMAIN', 'gally-websolutions');
 	
-	if(isset($_POST['submit'])){
+	if(isset($_POST['submit_debugian'])){
 		$settings = file_get_contents(__DIR__.'/settings.json');
 		$settings = json_decode($settings, true);
 
@@ -30,7 +30,7 @@
 		}
 	}
 
-	if(isset($_POST['submit_hosting'])){
+	if(isset($_POST['submit_debugian_hosting'])){
 		$settings = file_get_contents(__DIR__.'/settings.json');
 		$settings = json_decode($settings, true);
 
@@ -307,7 +307,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Änderungen speichern"></p>
+					<p class="submit"><input type="submit" name="submit_debugian" id="submit" class="button button-primary" value="Änderungen speichern"></p>
 				</form>
 			<?php endif; ?>
 
@@ -428,7 +428,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<p class="submit"><input type="submit" name="submit_hosting" id="submit" class="button button-primary" value="Änderungen speichern"></p>
+					<p class="submit"><input type="submit" name="submit_debugian_hosting" id="submit" class="button button-primary" value="Änderungen speichern"></p>
 				</form>
 			
 			<?php else: ?>
