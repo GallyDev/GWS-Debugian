@@ -14,5 +14,3 @@ In den Einstellungen vom Debugian kann definiert werden, welche Post-Types im Fr
 Debugian überprüft beim Editieren, dass bloss ein H1 vorkommt. Mehrfache Verwendungen von H1 werden hervorgehoben.
 ### Hosting-Zugangsdaten
 In den Einstellungen vom Debugian können Hosting-Infos für die Kund*innen hinterlegt werden. Alle User ohne @ally-websolutions.com E-Mail sehen bloss die Info und können nichts ändern.
-
-#my test.
