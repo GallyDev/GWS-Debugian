@@ -20,6 +20,9 @@
 		$dirAccess = implode($allowfrom,$dirAccess);
 		file_put_contents($file,$fileAccess);
 		file_put_contents($dir,$dirAccess);
+
+		$fileAccess = explode('#GallyAllowfrom',file_get_contents($file));
+		$dirAccess = explode('#GallyAllowfrom',file_get_contents($dir));
 	}
 
 	$ip = $_SERVER['REMOTE_ADDR'];
@@ -55,10 +58,14 @@
 			Die IP-Adresse [<?=$ip?>] wurde in die Liste der erlaubten IPs eingetragen.
 		</p>
 		<span>
-			<a href="../../../wp-login.php">Zum Login</a> | 
+			<a href="../../../wp-login.php">Zum Login</a>
+			|
 			<a href="/">Zur Website</a>
 
-			<a href="https://www.gally-websolutions.com/gaw/?link=<?= urlencode($_SERVER['SCRIPT_URI']) ?>" target="_blank">Link speichern</a>
+			<?php 
+				$uri = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+			?>
+			<a href="https://www.gally-websolutions.com/gaw/?link=<?= urlencode($uri) ?>" target="_blank">Link speichern</a>
 		</span>
 	</div>
 </body>
