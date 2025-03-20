@@ -2,13 +2,41 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.2.2
+		Version: 1.2.3
 	*/
 
 	// if loggedin add something to the admin bar
 
-	define('GWS_DEBUGIAN_COLOR', '#f0f');
+	define('GWS_DEBUGIAN_COLOR', '#FFC300');
+	define('GWS_DEBUGIAN_DEV', 'dev.');
 	define('SUPERADMIN_DOMAIN', 'gally-websolutions');
+
+	if (strpos(get_site_url(), GWS_DEBUGIAN_DEV) !== false) {
+		add_action('wp_head', 'gws_debugian_header_style');
+		function gws_debugian_header_style() {
+			if (is_user_logged_in()) {
+				?>
+				<style>
+					body:after {
+						content:"DEV";
+						position:fixed;
+						left: .5em;
+						bottom: .5em;
+						background: <?=GWS_DEBUGIAN_COLOR?>;
+						z-index: 999999;
+						aspect-ratio:1;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						padding: 0 .5em;
+						font-size:.8em;
+						border-radius: 50%;
+					}
+				</style>
+				<?php
+			}
+		}
+	}
 	
 	if(isset($_POST['submit_debugian'])){
 		$settings = file_get_contents(__DIR__.'/settings.json');
