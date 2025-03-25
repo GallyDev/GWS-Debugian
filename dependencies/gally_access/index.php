@@ -168,7 +168,7 @@
 	<hr>
 		<small>
 			Ihr sicherer Zugang
-			<a href="https://www.gally-websolutions.com/gaw/" target="_blank">zum Gally Access Webspeicher</a>
+			<a href="https://www.gally-websolutions.com/gaw/">zum Gally Access Webspeicher</a>
 		</small>
 		<h1>Gally Access</h1>
 		<?php if(isset($_GET['install'])){ ?>
