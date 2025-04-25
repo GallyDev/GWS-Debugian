@@ -1,0 +1,5 @@
+.gws-captcha .gfield_label{
+	background: url(captcha) no-repeat right center !important;
+	background-size: auto 35px !important;
+	padding-right: calc(1ch + 200px) !important;
+}

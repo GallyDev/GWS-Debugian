@@ -6,8 +6,11 @@ Debugian, der Liebe Debughelfer von Gally Websolutions fügt folgende Features h
 Macht bei allen Elementen (inklusive :before und :after) eine farbige Outline. Damit können einfacher Elemente entdeckt werden, die unerwünschte Positionen haben und zB Scrollbalken erstellen.
 
 ## Backend
-### Gally Access installieren & neu verschlüsseln
+### GWS Status
+Debugian und Gally Access werden mit ihren Github-Repositories abgeglichen und bieten updates an, wenn verfügbar.
+### Gally Access installieren & neu verschlüsseln & Modus «Ganze Website schützen»
 Mit einem Klick kann Gally Access installiert & aktiviert werden. Auch kann Gally Access neu verschlüsselt werden, sollte das nötig sein.
+Neu kann in der Admin die komplette Website hinter Gally Access gesetzt werden.
 ### Posts ohne Post-Title im Frontend
 In den Einstellungen vom Debugian kann definiert werden, welche Post-Types im Front-End den Post-Title nicht automatisch als H1 darstellen. Diese Post-Types erhalten dann eine Darstellung des Titels.
 ### H1-Checker
