@@ -2,12 +2,15 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.2.4
+		Version: 1.3.0
 	*/
 
-	define('GWS_DEBUGIAN_COLOR', '#FFC300');
+	define('GWS_DEBUGIAN_VERSION', '1.3.0');
+	define('GWS_DEBUGIAN_COLOR', '#FF00C3');
 	define('GWS_DEBUGIAN_DEV', 'devdocs');
 	define('SUPERADMIN_DOMAIN', 'gally-websolutions');
+
+	define('GWS_DEBUGIAN_AUTOUPDATE', false);
 
 	if (strpos(__DIR__, GWS_DEBUGIAN_DEV) !== false) {
 		
@@ -43,8 +46,92 @@
 		}
 	}
 	
+	add_action('wp_enqueue_scripts', function() {
+		wp_enqueue_style('gws-debugian', plugin_dir_url(__FILE__) . 'debugian.css', [], GWS_DEBUGIAN_VERSION);
+	});
+	
+
+	add_filter('gform_pre_render', 'gws_debugian_pre_render');
+
+	function gws_debugian_pre_render($form) {
+		session_start();
+		if(count($_POST) == 0) {
+			$_SESSION['gws_captcha'] = base64_encode(rand(111111,999999));
+			$_SESSION['gws_captcha_time'] = time();
+		}
+		session_write_close();
+
+
+		foreach ($form['fields'] as &$field) {
+			if($field->allowsPrepopulate && $field->inputName == 'gws-captcha') {
+
+				$field->cssClass = 'gws-captcha'; 
+			}
+		}
+
+		return $form;
+	}
+
+	add_filter('gform_pre_validation', 'gws_debugian_pre_validation');
+	function gws_debugian_pre_validation($form) {
+		session_start();
+		foreach ($form['fields'] as &$field) {
+			if($field->allowsPrepopulate && $field->inputName == 'gws-captcha') {
+				$retmsg = '';
+				if(rgpost('input_'.$field->id) != $_SESSION['gws_captcha']) {
+					$field->failed_validation = true;
+					$retmsg = __('Bitte den Code eingeben.', 'gws-debugian');
+				}
+				if(time() - $_SESSION['gws_captcha_time'] < 18) {
+					$field->failed_validation = true;
+					if($retmsg == '') {
+						$retmsg = __('Die Eingabe ist zu schnell.', 'gws-debugian')  .  ' - Fehler Code: ' . time() - $_SESSION['gws_captcha_time'];
+					}
+				}
+				if($retmsg != '') {
+					$field->validation_message = $retmsg;
+					$field->is_value_submission = false;
+				}
+			}
+		}
+		session_write_close();
+		return $form;
+	}
+
+
+	$htaccess = file_get_contents(__DIR__.'/../../../.htaccess');
+	$htaccess = str_replace("\r\n", "\n", $htaccess);
+	$htaccess = str_replace("\r", "\n", $htaccess);
+
+	if(isset($_GET['switch_gally_access'])){
+		global $htaccess;
+		if(strpos($htaccess, "# BEGIN GALLY ACCESS\n#<Files") === false){
+			$htaccess = str_replace("# BEGIN GALLY ACCESS\n<Files", "# BEGIN GALLY ACCESS\n#<Files", $htaccess);
+			$htaccess = str_replace("</Files>\n# END GALLY ACCESS", "#</Files>\n# END GALLY ACCESS", $htaccess);
+			file_put_contents(__DIR__.'/../../../.htaccess', $htaccess);
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p>Gally Access schützt nun die komplette Website</p>
+			</div>
+			<?php
+		}else{
+			$htaccess = str_replace("# BEGIN GALLY ACCESS\n#<Files", "# BEGIN GALLY ACCESS\n<Files", $htaccess);
+			$htaccess = str_replace("#</Files>\n# END GALLY ACCESS", "</Files>\n# END GALLY ACCESS", $htaccess);
+			file_put_contents(__DIR__.'/../../../.htaccess', $htaccess);
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p>Gally Access schützt nur WordPress</p>
+			</div>
+			<?php
+		}
+	}
+
+	
 	if(isset($_POST['submit_debugian'])){
-		$settings = file_get_contents(__DIR__.'/settings.json');
+		$settings = file_get_contents(__DIR__.'/base_settings.json');
+		if(file_exists(__DIR__.'/settings.json')){
+			$settings = file_get_contents(__DIR__.'/settings.json');
+		}
 		$settings = json_decode($settings, true);
 
 		$settings['post_types'] = $_POST['gws_debugian_post_types']??[];
@@ -64,7 +151,10 @@
 	}
 
 	if(isset($_POST['submit_debugian_hosting'])){
-		$settings = file_get_contents(__DIR__.'/settings.json');
+		$settings = file_get_contents(__DIR__.'/base_settings.json');
+		if(file_exists(__DIR__.'/settings.json')){
+			$settings = file_get_contents(__DIR__.'/settings.json');
+		}
 		$settings = json_decode($settings, true);
 
 		$settings['hosting'] = 	isset($_POST['hosting']['enabled']) ? $_POST['hosting']	: null;
@@ -85,7 +175,10 @@
 		}
 	}
 
-	$settings = file_get_contents(__DIR__.'/settings.json');
+	$settings = file_get_contents(__DIR__.'/base_settings.json');
+	if(file_exists(__DIR__.'/settings.json')){
+		$settings = file_get_contents(__DIR__.'/settings.json');
+	}
 	$settings = json_decode($settings, true);
 
 	if(!isset($settings['post_types'])) $settings['post_types'] = ['page'];
@@ -100,6 +193,7 @@
 
 	add_action('admin_bar_menu', 'gws_debugian_admin_bar_menu', 50);
 	function gws_debugian_admin_bar_menu($admin_bar) {
+		global $htaccess;
 		// if loggedin but in frontend
 		$doDebugian = false;
 
@@ -134,6 +228,18 @@
 					'id' => 'gws-debugian-gally-access',
 					'title' => 'Gally Access neu verschlüsseln',
 					'href' => '/gally_access/?install',
+					'parent' => 'gws-debugian'
+				));
+				
+				$info = '🔒 Website freigeben und nur Admin mit Gally Access schützen';
+				if(strpos($htaccess, "# BEGIN GALLY ACCESS\n#<Files") === false){
+					$info = '🔓 Ganze Website hinter Gally Access stellen';
+				}
+
+				$admin_bar->add_menu(array(
+					'id' => 'gws-debugian-gally-access-DEV',
+					'title' => $info,
+					'href' => '?page=gws-debugian&switch_gally_access',
 					'parent' => 'gws-debugian'
 				));
 			}
@@ -342,6 +448,107 @@
 					</table>
 					<p class="submit"><input type="submit" name="submit_debugian" id="submit" class="button button-primary" value="Änderungen speichern"></p>
 				</form>
+
+				<h1>
+					<strong class="gws">GWS</strong> Status
+				</h1>
+				<div style="float:left;margin: 0 2em 2em 0;">
+					<h2>
+						Debugian
+					</h2>
+					<?php
+						$repo_Gian = escapeshellarg('https://github.com/GallyDev/GWS-Debugian.git');
+						$dir_Gian = escapeshellarg(__DIR__);
+
+						if(isset($_GET['debugian_update'])){
+							$git = "cd $repo_Gian && git pull origin main 2>&1";
+
+							
+						}
+						
+						
+						exec("cd $dir_Gian && git fetch origin 2>&1", $output, $return);
+						exec("cd $dir_Gian && git status -uno 2>&1", $output, $return);
+
+						$output = implode("\n", $output);
+
+						if (strpos($output, 'Changes not staged for commit') !== false) {
+							echo "🚨 Achtung: Lokale Änderungen beachten";
+						} elseif (strpos($output, 'up to date') !== false) {
+							echo "aktuell";
+						} elseif (strpos($output, 'behind') !== false) {
+							?>
+								<p>Auf Github ist eine neue Version verfügbar.</p>
+								<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
+							<?php
+						} else {
+							echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
+						}
+
+						echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
+					?>
+				</div>
+
+				<div style="float:left;">
+					<h2>
+						Gally Access
+					</h2>
+					<?php
+						$repo_GA = escapeshellarg('https://github.com/GallyDev/Gally-Access.git');
+						$dir_GA = escapeshellarg(__DIR__.'/dependencies/gally_access');
+
+						if(isset($_GET['gally_access_update'])){
+							$git = "cd $dir_GA && git pull origin main 2>&1";
+
+							exec($git, $output, $return_var);
+							$output = implode("\n", $output);
+							echo "<pre>$output</pre>";
+							
+							$gally_access = __DIR__.'/../../../gally_access';
+							if (is_dir($gally_access)) {
+								$dirs = array_filter(scandir($gally_access), function($item) use ($gally_access) {
+									return is_dir("$gally_access/$item") && !in_array($item, ['.', '..']);
+								});
+								$gdir = array_pop($dirs);
+								
+								exec("rm -rf $gally_access/* 2>&1", $output, $return);
+								exec("cp -r $dir_GA/* $gally_access 2>&1", $output, $return);
+								exec("mv $gally_access/to_be_randomized $gally_access/$gdir 2>&1", $output, $return);
+
+								$users = get_users();
+								$emails = array();
+								foreach ($users as $user) {
+									$emails[] = $user->user_email;
+								}
+								file_put_contents("$gally_access/$gdir/$gdir", json_encode($emails));
+
+							}
+
+						}
+						
+						
+						exec("cd $dir_GA && git fetch origin 2>&1", $output, $return);
+						exec("cd $dir_GA && git status -uno 2>&1", $output, $return);
+
+						$output = implode("\n", $output);
+
+						if (strpos($output, 'Changes not staged for commit') !== false) {
+							echo "🚨 Achtung: Lokale Änderungen beachten";
+						} elseif (strpos($output, 'up to date') !== false) {
+							echo "aktuell";
+						} elseif (strpos($output, 'behind') !== false) {
+							?>
+								<p>Auf Github ist eine neue Version verfügbar.</p>
+								<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
+							<?php
+						} else {
+							echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
+						}
+
+						echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
+					?>
+				</div>
+				<div style="clear:both;"></div>
 			<?php endif; ?>
 
 			<h1>
@@ -350,6 +557,8 @@
 					<a href="/wp-admin/options-general.php?page=gws-debugian&edit" class="page-title-action">Anpassen</a>
 				<?php endif; ?>
 			</h1>
+
+
 			<style>
 				.page-title-action{
 					margin-left: 1em;
@@ -549,3 +758,4 @@
 		</div>
 		<?php
 	}
+?>
