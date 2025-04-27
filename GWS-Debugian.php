@@ -518,12 +518,19 @@
 						$repo_GA = escapeshellarg('https://github.com/GallyDev/Gally-Access.git');
 						$dir_GA = escapeshellarg(__DIR__.'/dependencies/gally_access');
 
+						if(!is_dir($dir_GA)){
+							$git = "git clone $repo_GA $dir_GA 2>&1";
+							exec($git, $output, $return_var);
+							$output = implode("\n", $output);
+							echo "<pre>Install:\n<small>$git</small>\n\n$output</pre>";
+						}
+
 						if(isset($_GET['gally_access_update'])){
 							$git = "cd $dir_GA && git pull origin main 2>&1";
 
 							exec($git, $output, $return_var);
 							$output = implode("\n", $output);
-							echo "<pre>Update:\n<small>$git</small>$output</pre>";
+							echo "<pre>Update:\n<small>$git</small>\n\n$output</pre>";
 							
 							$gally_access = __DIR__.'/../../../gally_access';
 							if (is_dir($gally_access)) {
