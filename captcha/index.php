@@ -12,8 +12,8 @@ $scale = 2;
 $width = 200 * $scale;
 $height = 35 * $scale;
 
-if(file_exists(__DIR__.'/settings.php')){
-	include_once(__DIR__.'/settings.php');
+if(file_exists(__DIR__.'/../settings.php')){
+	include_once(__DIR__.'/../settings.php');
 }
 
 $image = imagecreatetruecolor($width, $height);
