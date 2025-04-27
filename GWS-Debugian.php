@@ -2,15 +2,22 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.3.0
+		Version: 1.3.2
 	*/
+	if(!defined('ABSPATH')) {
+		exit; // Exit if accessed directly
+	}
+	define('GWS_DEBUGIAN_VERSION', '1.3.2');
 
-	define('GWS_DEBUGIAN_VERSION', '1.3.0');
-	define('GWS_DEBUGIAN_COLOR', '#FF00C3');
-	define('GWS_DEBUGIAN_DEV', 'devdocs');
-	define('SUPERADMIN_DOMAIN', 'gally-websolutions');
+	if(file_exists(__DIR__.'/settings.php')){
+		include_once(__DIR__.'/settings.php');
+	}
 
-	define('GWS_DEBUGIAN_AUTOUPDATE', false);
+	if(!defined('GWS_DEBUGIAN_COLOR')) 		define('GWS_DEBUGIAN_COLOR', '#FF00C3');
+	if(!defined('GWS_DEBUGIAN_DEV')) 		define('GWS_DEBUGIAN_DEV', 'devdocs');
+	if(!defined('SUPERADMIN_DOMAIN')) 		define('SUPERADMIN_DOMAIN', 'gally-websolutions');
+	if(!defined('GWS_DEBUGIAN_AUTOUPDATE')) define('GWS_DEBUGIAN_AUTOUPDATE', false);
+	
 
 	if (strpos(__DIR__, GWS_DEBUGIAN_DEV) !== false) {
 		
@@ -27,6 +34,17 @@
 						left: .5em;
 						bottom: .5em;
 						background: <?=GWS_DEBUGIAN_COLOR?>;
+						color: #fff;
+						text-shadow: 0 0 1px #000, 
+									 0 0 3px #000,
+									 0 0 1px #000,
+									 0 0 2px #000;
+						/*               !   ;) */
+						box-shadow:  0 0 1px #000, 
+									 0 0 3px #000,
+									 0 0 1px #000,
+									 0 0 2px #000;
+						/*               !   ;) */
 						z-index: 999999;
 						aspect-ratio:1;
 						display: flex;
@@ -463,6 +481,9 @@
 						if(isset($_GET['debugian_update'])){
 							$git = "cd $repo_Gian && git pull origin main 2>&1";
 
+							exec($git, $output, $return_var);
+							$output = implode("\n", $output);
+							echo "<pre>$output</pre>";
 							
 						}
 						
@@ -472,15 +493,15 @@
 
 						$output = implode("\n", $output);
 
-						if (strpos($output, 'Changes not staged for commit') !== false) {
+						if (strpos($output, 'behind') !== false) {
+							?>
+								<p>Auf Github ist eine neue Version verfügbar.</p>
+								<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Debugian»-Version an Github angleichen</a>
+							<?php
+						} elseif (strpos($output, 'Changes not staged for commit') !== false) {
 							echo "🚨 Achtung: Lokale Änderungen beachten";
 						} elseif (strpos($output, 'up to date') !== false) {
 							echo "aktuell";
-						} elseif (strpos($output, 'behind') !== false) {
-							?>
-								<p>Auf Github ist eine neue Version verfügbar.</p>
-								<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
-							<?php
 						} else {
 							echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
 						}
@@ -532,15 +553,15 @@
 
 						$output = implode("\n", $output);
 
-						if (strpos($output, 'Changes not staged for commit') !== false) {
-							echo "🚨 Achtung: Lokale Änderungen beachten";
-						} elseif (strpos($output, 'up to date') !== false) {
-							echo "aktuell";
-						} elseif (strpos($output, 'behind') !== false) {
+						if (strpos($output, 'behind') !== false) {
 							?>
 								<p>Auf Github ist eine neue Version verfügbar.</p>
 								<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
 							<?php
+						} elseif (strpos($output, 'Changes not staged for commit') !== false) {
+							echo "🚨 Achtung: Lokale Änderungen beachten";
+						} elseif (strpos($output, 'up to date') !== false) {
+							echo "aktuell";
 						} else {
 							echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
 						}
