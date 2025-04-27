@@ -1,9 +1,0 @@
-# BEGIN GALLY ACCESS
-<Files "wp-login.php">
-	RewriteEngine On
-	
-	#GallyAllowfrom
-
-	RewriteRule ^(.*)$ /gally_access/ [L,R=302]
-</Files>
-# END GALLY ACCESS

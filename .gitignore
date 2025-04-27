@@ -1,6 +1,5 @@
 .DS_Store
 .settings.json
-dependencies
-dependencies/*
+dependencies/**
 settings.php
 captcha/font.ttf
