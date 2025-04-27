@@ -479,7 +479,7 @@
 						$dir_Gian = escapeshellarg(__DIR__);
 
 						if(isset($_GET['debugian_update'])){
-							$git = "cd $repo_Gian && git pull origin main 2>&1";
+							$git = "$repo_Gian && git pull origin main 2>&1";
 
 							exec($git, $output, $return_var);
 							$output = implode("\n", $output);
