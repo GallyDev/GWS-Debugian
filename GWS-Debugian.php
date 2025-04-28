@@ -204,13 +204,7 @@
 	if(isset($_GET['gally_access_install'])){
 		
 		$gally_access = __DIR__.'/dependencies/gally_access';
-		// if(is_dir($gally_access)) rename($gally_access, __DIR__.'/../../../gally_access');
-		if (is_dir($gally_access)) {
-			// Remove existing gally_access directory
-			exec("rm -rf " . escapeshellarg($gally_access));
-		}
-		$src = __DIR__ . '/dependencies/gally_access';
-		exec("cp -r " . escapeshellarg($src) . " " . escapeshellarg($gally_access));
+		if(is_dir($gally_access)) copy($gally_access, __DIR__.'/../../../gally_access');
 
 		header('Location: /gally_access/?install');
 	}
