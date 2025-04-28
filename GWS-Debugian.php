@@ -204,7 +204,7 @@
 	if(isset($_GET['gally_access_install'])){
 		
 		$gally_access = __DIR__.'/dependencies/gally_access';
-		$gally_access_install = __DIR__.'/../../../gally_access';
+		$gally_access_install = __DIR__.'/../../../';
 
 		echo "<pre>";
 		echo "Gally Access installieren...\n";
