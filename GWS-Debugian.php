@@ -219,10 +219,10 @@
 			// copy($gally_access, __DIR__.'/../../../gally_access');
 			// copy folders
 			$gally_access = escapeshellarg($gally_access);
-			$gally_access_install = escapeshellarg($gally_access_install);
 			if (!is_dir($gally_access_install)) {
 				mkdir($gally_access_install, 0755, true);
 			}
+			$gally_access_install = escapeshellarg($gally_access_install);
 			exec("cp -r $gally_access/* $gally_access_install 2>&1", $output, $return);
 			$output = implode("\n", $output);
 			echo $output;
