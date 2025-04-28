@@ -204,6 +204,7 @@
 	if(isset($_GET['gally_access_install'])){
 		
 		$gally_access = __DIR__.'/dependencies/gally_access';
+		$gally_access_install = __DIR__.'/../../../gally_access';
 
 		echo "<pre>";
 		echo "Gally Access installieren...\n";
@@ -214,8 +215,12 @@
 
 		if(is_dir($gally_access)) {
 			echo "Gally Access vorhanden und wird kopiert.\n";
-			copy($gally_access, __DIR__.'/../../../gally_access');
-			echo "Gally Access wurde kopiert.\n";
+			// copy($gally_access, __DIR__.'/../../../gally_access');
+			// copy folders
+			exec("cp -r $gally_access/* $gally_access_install 2>&1", $output, $return);
+			$output = implode("\n", $output);
+			echo $output;
+			echo "\nGally Access wurde kopiert.\n";
 		};
 		echo "</pre>";
 
