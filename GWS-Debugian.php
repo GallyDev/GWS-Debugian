@@ -230,8 +230,6 @@
 		};
 		echo "</pre>";
 
-
-		die();
 		header('Location: /gally_access/?install');
 	}
 
