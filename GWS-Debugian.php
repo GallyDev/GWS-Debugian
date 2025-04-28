@@ -517,13 +517,14 @@
 
 						$output = implode("\n", $output);
 
+						if (strpos($output, 'Changes not staged for commit') !== false) {
+							echo "<h3>🚨 Achtung: Lokale Änderungen beachten</h3>";
+						}
 						if (strpos($output, 'behind') !== false) {
 							?>
 								<p>Auf Github ist eine neue Version verfügbar.</p>
 								<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Debugian»-Version an Github angleichen</a>
 							<?php
-						} elseif (strpos($output, 'Changes not staged for commit') !== false) {
-							echo "🚨 Achtung: Lokale Änderungen beachten";
 						} elseif (strpos($output, 'up to date') !== false) {
 							echo "aktuell";
 						} else {
@@ -586,13 +587,14 @@
 
 						$output = implode("\n", $output);
 
+						if (strpos($output, 'Changes not staged for commit') !== false) {
+							echo "<h3>🚨 Achtung: Lokale Änderungen beachten</h3>";
+						}
 						if (strpos($output, 'behind') !== false) {
 							?>
 								<p>Auf Github ist eine neue Version verfügbar.</p>
 								<a href="?page=gws-debugian&gally_access_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
 							<?php
-						} elseif (strpos($output, 'Changes not staged for commit') !== false) {
-							echo "🚨 Achtung: Lokale Änderungen beachten";
 						} elseif (strpos($output, 'up to date') !== false) {
 							echo "aktuell";
 						} else {
