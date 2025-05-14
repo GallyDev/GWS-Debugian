@@ -2,12 +2,13 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.3.3
+		Version: 1.3.4
 	*/
+	define('GWS_DEBUGIAN_VERSION', '1.3.4');
+
 	if(!defined('ABSPATH')) {
 		exit; // Exit if accessed directly
 	}
-	define('GWS_DEBUGIAN_VERSION', '1.3.3');
 
 	if(file_exists(__DIR__.'/settings.php')){
 		include_once(__DIR__.'/settings.php');
@@ -206,29 +207,32 @@
 		$gally_access = __DIR__.'/dependencies/gally_access';
 		$gally_access_install = __DIR__.'/../../../gally_access';
 
-		echo "<pre>";
-		echo "Gally Access installieren...\n";
-		var_export($gally_access);
-		echo "\n";
-		var_export(is_dir($gally_access));
-		echo "\n";
-		
+		ob_start();
+			echo "<pre>";
+			echo "Gally Access installieren...\n";
+			var_export($gally_access);
+			echo "\n";
+			var_export(is_dir($gally_access));
+			echo "\n";
+			
 
-		if(is_dir($gally_access)) {
-			echo "Gally Access vorhanden und wird kopiert.\n";
-			// copy($gally_access, __DIR__.'/../../../gally_access');
-			// copy folders
-			$gally_access = escapeshellarg($gally_access);
-			if (!is_dir($gally_access_install)) {
-				mkdir($gally_access_install, 0755, true);
-			}
-			$gally_access_install = escapeshellarg($gally_access_install);
-			exec("cp -r $gally_access/* $gally_access_install 2>&1", $output, $return);
-			$output = implode("\n", $output);
-			echo $output;
-			echo "\nGally Access wurde kopiert.\n";
-		};
-		echo "</pre>";
+			if(is_dir($gally_access)) {
+				echo "Gally Access vorhanden und wird kopiert.\n";
+				// copy($gally_access, __DIR__.'/../../../gally_access');
+				// copy folders
+				$gally_access = escapeshellarg($gally_access);
+				if (!is_dir($gally_access_install)) {
+					mkdir($gally_access_install, 0755, true);
+				}
+				$gally_access_install = escapeshellarg($gally_access_install);
+				exec("cp -r $gally_access/* $gally_access_install 2>&1", $output, $return);
+				$output = implode("\n", $output);
+				echo $output;
+				echo "\nGally Access wurde kopiert.\n";
+			};
+			echo "</pre>";
+		$output = ob_get_clean();
+		//echo $output;
 
 		header('Location: /gally_access/?install');
 	}
