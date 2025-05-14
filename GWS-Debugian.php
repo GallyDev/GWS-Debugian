@@ -259,13 +259,25 @@
 			));
 		}elseif (is_user_logged_in()){
 			// check if folder ../../../gally_access exists
+			$dir_GA = __DIR__.'/dependencies/gally_access';
 			$gally_access = __DIR__.'/../../../gally_access';
-			if (!is_dir($gally_access)) {
+
+			$doDebugian = true;
+
+			if(!is_dir($dir_GA)){
+				$doDebugian = true;
+				$admin_bar->add_menu(array(
+					'id' => 'gws-debugian-gally-access',
+					'title' => 'Gally Access Status prüfen',
+					'href' => '/wp-admin/options-general.php?page=gws-debugian',
+					'parent' => 'gws-debugian'
+				));
+			}elseif (!is_dir($gally_access)) {
 				$doDebugian = true;
 				$admin_bar->add_menu(array(
 					'id' => 'gws-debugian-gally-access',
 					'title' => 'Gally Access installieren',
-					'href' => '?gally_access_install',
+					'href' => '/wp-admin/options-general.php?page=gws-debugian&gally_access_install',
 					'parent' => 'gws-debugian'
 				));
 			}else{
@@ -285,7 +297,7 @@
 				$admin_bar->add_menu(array(
 					'id' => 'gws-debugian-gally-access-DEV',
 					'title' => $info,
-					'href' => '?page=gws-debugian&switch_gally_access',
+					'href' => '/wp-admin/options-general.php?page=gws-debugian&switch_gally_access',
 					'parent' => 'gws-debugian'
 				));
 			}
@@ -295,7 +307,7 @@
 			$admin_bar->add_menu(array(
 				'id' => 'gws-debugian',
 				'title' => 'Debugian',
-				'href' => '#',
+				'href' => '/wp-admin/options-general.php?page=gws-debugian',
 				'meta' => array(
 					'class' => 'gws-debugian',
 				),
