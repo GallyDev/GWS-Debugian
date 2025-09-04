@@ -2,9 +2,9 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.3.4
+		Version: 1.3.5
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.3.4');
+	define('GWS_DEBUGIAN_VERSION', '1.3.5');
 
 	if(!defined('ABSPATH')) {
 		exit; // Exit if accessed directly
@@ -225,7 +225,7 @@
 					mkdir($gally_access_install, 0755, true);
 				}
 				$gally_access_install = escapeshellarg($gally_access_install);
-				exec("cp -r $gally_access/* $gally_access_install 2>&1", $output, $return);
+				exec("cp -r $gally_access/. $gally_access_install 2>&1", $output, $return);
 				$output = implode("\n", $output);
 				echo $output;
 				echo "\nGally Access wurde kopiert.\n";
