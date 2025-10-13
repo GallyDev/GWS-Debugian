@@ -629,12 +629,12 @@
 				</h1>
 				<p>Baguette ist meine Freundin (m/w/d) und freut sich total, wenn sie weiss, was bei mir grad so passiert.</p>
 				<?php if(isset($_GET['pingBaguette'])): ?>
-					<div class="notice notice-success is-dismissible">
-						<p>Baguette wurde informiert und sie hat voll süss geantworetet:</p>
-						<pre><?= file_get_contents('https://www.gally-websolutions.de/baguette='.$url) ?></pre>
-					</div>
+					<p>Baguette wurde informiert und sie hat voll süss geantworetet:</p>
+					<pre><?= file_get_contents('https://www.gally-websolutions.com/baguette='.$url) ?></pre>
+				<?php else: ?>
+					<a href="/wp-admin/options-general.php?page=gws-debugian&pingBaguette" class="page-title-action">Baguette informieren</a>
 				<?php endif; ?>
-				<a href="/wp-admin/options-general.php?page=gws-debugian&pingBaguette" class="page-title-action">Baguette informieren</a>
+				<br><br>
 			<?php endif; ?>
 			
 			<h1>
