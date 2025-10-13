@@ -628,18 +628,22 @@
 					<strong class="gws">GWS</strong> Baguette
 				</h1>
 				<p>Baguette ist meine Freundin (m/w/d) und freut sich total, wenn sie weiss, was bei mir grad so passiert.</p>
-				<?php if(isset($_GET['pingBaguette'])): ?>
-					<?php
-						$obj = file_get_contents('https://www.gally-websolutions.com/?baguette='.$url);
-						$obj = json_decode($obj);
-					?>
-					<div class="notice notice-success is-dismissible">
-						<p>Baguette wurde informiert und sie hat voll süss geantworetet:</p>
-						<pre><?= json_encode($obj, JSON_PRETTY_PRINT) ?></pre>
-					</div>
-				<?php else: ?>
-					<a href="/wp-admin/options-general.php?page=gws-debugian&pingBaguette" class="page-title-action">Baguette informieren</a>
-				<?php endif; ?>
+				<?php if (strpos(__DIR__, GWS_DEBUGIAN_DEV) !== false) { ?>
+					<p>Baguette interessiert sich leider zum Glück nicht für DEV-Instanzen. Das ist ihr zu technisch, leider. Sie ist halt ein Girl (m/w/d).</p>
+				<?php } else { ?>
+					<?php if(isset($_GET['pingBaguette'])): ?>
+						<?php
+							$obj = file_get_contents('https://www.gally-websolutions.com/?baguette='.$url);
+							$obj = json_decode($obj);
+						?>
+						<div class="notice notice-success is-dismissible">
+							<p>Baguette wurde informiert und sie hat voll süss geantworetet:</p>
+							<pre><?= json_encode($obj, JSON_PRETTY_PRINT) ?></pre>
+						</div>
+					<?php else: ?>
+						<a href="/wp-admin/options-general.php?page=gws-debugian&pingBaguette" class="page-title-action">Baguette informieren</a>
+					<?php endif; ?>
+				<?php } ?>
 				<br><br>
 			<?php endif; ?>
 			
