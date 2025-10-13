@@ -633,7 +633,8 @@
 				<?php } else { ?>
 					<?php if(isset($_GET['pingBaguette'])): ?>
 						<?php
-							$obj = file_get_contents('https://www.gally-websolutions.com/?baguette='.$url);
+							$link = str_replace(['https://', 'http://', 'www.'], '', $url);
+							$obj = file_get_contents('https://www.gally-websolutions.com/?baguette='.$link);
 							$obj = json_decode($obj);
 						?>
 						<div class="notice notice-success is-dismissible">
