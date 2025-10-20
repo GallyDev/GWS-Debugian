@@ -1,0 +1,88 @@
+.gws-dashboard-widget-list{
+	display: flex;
+	flex-direction: column;
+
+	[class^="id_gws"]{
+		order: -1;
+	}
+
+	.inactive:has(:checked),
+	.active:not(:has(:checked)){
+		color:#900;
+	}
+}
+
+
+#gws_dashboard_gally_support{
+	overflow: hidden;
+
+	.hervorheben{
+		background: #FFC300;
+		outline: 1em solid #FFC300;
+		margin-bottom: 2em;
+		font-weight: bold;
+
+		a{
+			color: inherit;
+		}
+	}
+
+	small{
+		opacity: .5;
+		font-size: .5em;
+		margin: 1em;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+#gws_dashboard_gally_news:not(.closed) .inside{
+	display:flex;
+	flex-direction: column;
+	gap: 1em;
+
+	a{
+		display:grid;
+		grid-template-columns: auto 1fr;
+		gap: .25em;
+		padding: .25em;
+		text-decoration: none;
+		color: inherit;
+
+		strong{
+			grid-row: 1;
+			grid-column: 1;
+			font-size: 1.5em;
+		}
+		datetime{
+			grid-row: 1;
+			grid-column: 2;
+			text-align: right;
+			opacity: .5;
+			font-size: .8em;
+		}
+		span{
+			grid-column: 1 / 3;
+		}
+
+		&:hover{
+			background: #eee;
+		}
+	}
+
+	a.hervorheben{
+		background: #FFC300;
+		outline: .25em solid #FFC300;
+	}
+}
+
+
+.postbox.closed:has(.hervorheben) .postbox-header h2.hndle{
+	display: block;
+
+	&:before{
+		content: "🔔 ";
+
+	}
+}

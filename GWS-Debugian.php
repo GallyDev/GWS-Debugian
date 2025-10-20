@@ -2,13 +2,16 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.4.0
+		Version: 1.5.0
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.4.0');
+	define('GWS_DEBUGIAN_VERSION', '1.5.0');
 
 	if(!defined('ABSPATH')) {
 		exit; // Exit if accessed directly
 	}
+
+	// GWS Dashboard einbinden
+	include_once(__DIR__.'/GWS-Dashboard/GWS-Dashboard.php');
 
 	if(file_exists(__DIR__.'/settings.php')){
 		include_once(__DIR__.'/settings.php');

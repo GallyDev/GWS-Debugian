@@ -1,4 +1,4 @@
-# GWS-Debugian - 1.3.5
+# GWS-Debugian - 1.5.0
 Debugian, der Liebe Debughelfer von Gally Websolutions fügt folgende Features hinzu:
 
 ## Frontend
@@ -17,3 +17,7 @@ In den Einstellungen vom Debugian kann definiert werden, welche Post-Types im Fr
 Debugian überprüft beim Editieren, dass bloss ein H1 vorkommt. Mehrfache Verwendungen von H1 werden hervorgehoben.
 ### Hosting-Zugangsdaten
 In den Einstellungen vom Debugian können Hosting-Infos für die Kund*innen hinterlegt werden. Alle User ohne @ally-websolutions.com E-Mail sehen bloss die Info und können nichts ändern.
+### GWS Dashboard
+Das Dashboard kann nun von den Super-Usern angepasst / aufgeräumt werden. Es gibt neu auch zwei Gally-Widgets im Wordpress-Dashboard.
+### GWS Baguette
+Als Teil des Go-Lives werden die Websites nun bei Gally-Websolutions für die Prüfung von Wartungsverträgen usw. beim Partner-Plugin «Baguette» verknüpft.
