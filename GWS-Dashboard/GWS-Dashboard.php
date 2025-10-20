@@ -171,7 +171,9 @@
 
 
 
-
+	if(!isset($gws_dashboard_data)){
+		$gws_dashboard_data = '{}';
+	}
 	try{
 		$gws_dashboard_data = json_decode($gws_dashboard_data, true);
 	} catch(Exception $e){
