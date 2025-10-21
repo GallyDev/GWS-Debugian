@@ -2,9 +2,9 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.5.0
+		Version: 1.5.1
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.5.0');
+	define('GWS_DEBUGIAN_VERSION', '1.5.1');
 
 	if(!defined('ABSPATH')) {
 		exit; // Exit if accessed directly
@@ -637,7 +637,7 @@
 					<?php if(isset($_GET['pingBaguette'])): ?>
 						<?php
 							$link = str_replace(['https://', 'http://', 'www.'], '', $url);
-							$obj = file_get_contents('https://www.gally-websolutions.com/?baguette='.$link);
+							$obj = file_get_contents('https://www.gally-websolutions.com/?baguette='.$link.'&version='.GWS_DEBUGIAN_VERSION);
 							$obj = json_decode($obj);
 						?>
 						<div class="notice notice-success is-dismissible">
