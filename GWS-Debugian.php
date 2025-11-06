@@ -696,6 +696,12 @@
 												exec("rm -rf $dir_repo 2>&1", $output, $return);
 												$output = implode("\n", $output);
 												echo "<pre>gelöscht.</pre>";
+											}elseif(in_array($repo->name, $toUpdate)){
+												$git = "cd $dir_repo && git pull origin main 2>&1";
+
+												exec($git, $output, $return_var);
+												$output = implode("\n", $output);
+												echo "<pre>Update:\n<small>$git</small>\n\n$output</pre>";
 											}else{
 												exec("cd $dir_repo && git fetch origin 2>&1", $output, $return);
 												exec("cd $dir_repo && git status -uno 2>&1", $output, $return);
