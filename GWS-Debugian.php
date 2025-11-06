@@ -627,6 +627,20 @@
 							echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
 						?>
 					</div>
+					<?php
+						$repos = json_decode(file_get_contents('https://api.github.com/users/GallyDev/repos'));
+						foreach ($repos as $repo) {
+							if(in_array($repo->name, ['GWS-Debugian', 'Gally-Access'])) continue;
+							?>
+								<div>
+									<h2>
+										<?=$repo->name?>
+									</h2>
+									<p><?=$repo->description?></p>
+								</div>
+							<?php
+						}
+					?>
 				</div>
 			<?php endif; ?>
 			
