@@ -4,7 +4,7 @@
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
 		Version: 1.6.0
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.6.0' . time());
+	define('GWS_DEBUGIAN_VERSION', '1.6.0');
 
 	if(!defined('ABSPATH')) {
 		exit; // Exit if accessed directly
