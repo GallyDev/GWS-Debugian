@@ -511,119 +511,120 @@
 				</form>
 
 				<h1>
-					<strong class="gws">GWS</strong> Status
+					<strong class="gws">GWS</strong> GIT
 				</h1>
-				<div style="float:left;margin: 0 2em 2em 0;">
-					<h2>
-						Debugian
-					</h2>
-					<?php
-						$repo_Gian = escapeshellarg('https://github.com/GallyDev/GWS-Debugian.git');
-						$dir_Gian = escapeshellarg(__DIR__);
+				<div class="gws-repos">
+					<div>
+						<h2>
+							Debugian
+						</h2>
+						<?php
+							$repo_Gian = escapeshellarg('https://github.com/GallyDev/GWS-Debugian.git');
+							$dir_Gian = escapeshellarg(__DIR__);
 
-						if(isset($_GET['debugian_update'])){
-							$git = "cd $dir_Gian && git pull origin main 2>&1";
+							if(isset($_GET['debugian_update'])){
+								$git = "cd $dir_Gian && git pull origin main 2>&1";
 
-							exec($git, $output, $return_var);
-							$output = implode("\n", $output);
-							echo "<pre>Update:\n<small>$git</small>\n\n$output</pre>";
-							
-						}
-						
-						
-						exec("cd $dir_Gian && git fetch origin 2>&1", $output, $return);
-						exec("cd $dir_Gian && git status -uno 2>&1", $output, $return);
-
-						$output = implode("\n", $output);
-
-						if (strpos($output, 'Changes not staged for commit') !== false) {
-							echo "<h3>🚨 Achtung: Lokale Änderungen beachten</h3>";
-						}
-						if (strpos($output, 'behind') !== false) {
-							?>
-								<p>Auf Github ist eine neue Version verfügbar.</p>
-								<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Debugian»-Version an Github angleichen</a>
-							<?php
-						} elseif (strpos($output, 'up to date') !== false) {
-							echo "aktuell";
-						} else {
-							echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
-						}
-
-						echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
-					?>
-				</div>
-
-				<div style="float:left;">
-					<h2>
-						Gally Access
-					</h2>
-					<?php
-						$repo_GA = escapeshellarg('https://github.com/GallyDev/Gally-Access.git');
-						$dir_GA = __DIR__.'/dependencies/gally_access';
-
-						if(!is_dir($dir_GA)){
-							$git = "git clone $repo_GA $dir_GA 2>&1";
-							exec($git, $output, $return_var);
-							$output = implode("\n", $output);
-							echo "<pre>Install:\n<small>$git</small>\n\n$output</pre>";
-						}
-						
-						$dir_GA = escapeshellarg($dir_GA);
-
-						if(isset($_GET['gally_access_update'])){
-							$git = "cd $dir_GA && git pull origin main 2>&1";
-
-							exec($git, $output, $return_var);
-							$output = implode("\n", $output);
-							echo "<pre>Update:\n<small>$git</small>\n\n$output</pre>";
-							
-							$gally_access = __DIR__.'/../../../gally_access';
-							if (is_dir($gally_access)) {
-								$dirs = array_filter(scandir($gally_access), function($item) use ($gally_access) {
-									return is_dir("$gally_access/$item") && !in_array($item, ['.', '..']);
-								});
-								$gdir = array_pop($dirs);
+								exec($git, $output, $return_var);
+								$output = implode("\n", $output);
+								echo "<pre>Update:\n<small>$git</small>\n\n$output</pre>";
 								
-								exec("rm -rf $gally_access/* 2>&1", $output, $return);
-								exec("cp -r $dir_GA/* $gally_access 2>&1", $output, $return);
-								exec("mv $gally_access/to_be_randomized $gally_access/$gdir 2>&1", $output, $return);
+							}
+							
+							
+							exec("cd $dir_Gian && git fetch origin 2>&1", $output, $return);
+							exec("cd $dir_Gian && git status -uno 2>&1", $output, $return);
 
-								$users = get_users();
-								$emails = array();
-								foreach ($users as $user) {
-									$emails[] = $user->user_email;
-								}
-								file_put_contents("$gally_access/$gdir/$gdir", json_encode($emails));
+							$output = implode("\n", $output);
 
+							if (strpos($output, 'Changes not staged for commit') !== false) {
+								echo "<h3>🚨 Achtung: Lokale Änderungen beachten</h3>";
+							}
+							if (strpos($output, 'behind') !== false) {
+								?>
+									<p>Auf Github ist eine neue Version verfügbar.</p>
+									<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Debugian»-Version an Github angleichen</a>
+								<?php
+							} elseif (strpos($output, 'up to date') !== false) {
+								echo "aktuell";
+							} else {
+								echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
 							}
 
-						}
-						
-						
-						exec("cd $dir_GA && git fetch origin 2>&1", $output, $return);
-						exec("cd $dir_GA && git status -uno 2>&1", $output, $return);
+							echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
+						?>
+					</div>
 
-						$output = implode("\n", $output);
+					<div>
+						<h2>
+							Gally Access
+						</h2>
+						<?php
+							$repo_GA = escapeshellarg('https://github.com/GallyDev/Gally-Access.git');
+							$dir_GA = __DIR__.'/dependencies/gally_access';
 
-						if (strpos($output, 'Changes not staged for commit') !== false) {
-							echo "<h3>🚨 Achtung: Lokale Änderungen beachten</h3>";
-						}
-						if (strpos($output, 'behind') !== false) {
-							?>
-								<p>Auf Github ist eine neue Version verfügbar.</p>
-								<a href="?page=gws-debugian&gally_access_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
-							<?php
-						} elseif (strpos($output, 'up to date') !== false) {
-							echo "aktuell";
-						} else {
-							echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
-						}
+							if(!is_dir($dir_GA)){
+								$git = "git clone $repo_GA $dir_GA 2>&1";
+								exec($git, $output, $return_var);
+								$output = implode("\n", $output);
+								echo "<pre>Install:\n<small>$git</small>\n\n$output</pre>";
+							}
+							
+							$dir_GA = escapeshellarg($dir_GA);
 
-						echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
-					?>
+							if(isset($_GET['gally_access_update'])){
+								$git = "cd $dir_GA && git pull origin main 2>&1";
+
+								exec($git, $output, $return_var);
+								$output = implode("\n", $output);
+								echo "<pre>Update:\n<small>$git</small>\n\n$output</pre>";
+								
+								$gally_access = __DIR__.'/../../../gally_access';
+								if (is_dir($gally_access)) {
+									$dirs = array_filter(scandir($gally_access), function($item) use ($gally_access) {
+										return is_dir("$gally_access/$item") && !in_array($item, ['.', '..']);
+									});
+									$gdir = array_pop($dirs);
+									
+									exec("rm -rf $gally_access/* 2>&1", $output, $return);
+									exec("cp -r $dir_GA/* $gally_access 2>&1", $output, $return);
+									exec("mv $gally_access/to_be_randomized $gally_access/$gdir 2>&1", $output, $return);
+
+									$users = get_users();
+									$emails = array();
+									foreach ($users as $user) {
+										$emails[] = $user->user_email;
+									}
+									file_put_contents("$gally_access/$gdir/$gdir", json_encode($emails));
+
+								}
+
+							}
+							
+							
+							exec("cd $dir_GA && git fetch origin 2>&1", $output, $return);
+							exec("cd $dir_GA && git status -uno 2>&1", $output, $return);
+
+							$output = implode("\n", $output);
+
+							if (strpos($output, 'Changes not staged for commit') !== false) {
+								echo "<h3>🚨 Achtung: Lokale Änderungen beachten</h3>";
+							}
+							if (strpos($output, 'behind') !== false) {
+								?>
+									<p>Auf Github ist eine neue Version verfügbar.</p>
+									<a href="?page=gws-debugian&gally_access_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
+								<?php
+							} elseif (strpos($output, 'up to date') !== false) {
+								echo "aktuell";
+							} else {
+								echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
+							}
+
+							echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
+						?>
+					</div>
 				</div>
-				<div style="clear:both;"></div>
 			<?php endif; ?>
 			
 			<?php if($superadmin && !isset($_GET['edit'])): ?>
