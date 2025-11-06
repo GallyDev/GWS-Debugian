@@ -21,6 +21,9 @@
 	if(!defined('GWS_DEBUGIAN_DEV')) 		define('GWS_DEBUGIAN_DEV', 'devdocs');
 	if(!defined('SUPERADMIN_DOMAIN')) 		define('SUPERADMIN_DOMAIN', 'gally-websolutions');
 	if(!defined('GWS_DEBUGIAN_AUTOUPDATE')) define('GWS_DEBUGIAN_AUTOUPDATE', false);
+
+	$dependencies = glob(__DIR__.'/dependencies/*/functions.php');
+	var_export($dependencies);
 	
 
 	if (strpos(__DIR__, GWS_DEBUGIAN_DEV) !== false) {
@@ -680,7 +683,7 @@
 											if(in_array($repo->name, $toDelete)){
 												exec("rm -rf $dir_repo 2>&1", $output, $return);
 												$output = implode("\n", $output);
-												echo "<pre>Delete:\n\n$output</pre>";
+												echo "<pre>gelöscht.</pre>";
 												
 											}else{
 											?>
