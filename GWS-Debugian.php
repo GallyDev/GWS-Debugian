@@ -69,7 +69,10 @@
 	}
 	
 	add_action('wp_enqueue_scripts', function() {
-		wp_enqueue_style('gws-debugian', plugin_dir_url(__FILE__) . 'debugian.css', [], GWS_DEBUGIAN_VERSION);
+		wp_enqueue_style('gws-debugian', plugin_dir_url(__FILE__) . 'captcha.css', [], GWS_DEBUGIAN_VERSION);
+	});
+	add_action('admin_enqueue_scripts', function ($hook) {
+		wp_enqueue_style('gws-dashboard', plugin_dir_url(__FILE__) . 'debugian.css', [], GWS_DEBUGIAN_VERSION);
 	});
 	
 

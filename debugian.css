@@ -1,5 +1,13 @@
-.gws-captcha .gfield_label{
-	background: url(captcha) no-repeat right center !important;
-	background-size: auto 35px !important;
-	padding-right: calc(1ch + 200px) !important;
+.gws-repos{
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+.gws-repos div {
+	background: #fff;
+	padding: 0 10px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
 }
