@@ -668,6 +668,7 @@
 
 							$toClone = $_POST['clone']??[];
 							$toDelete = $_POST['delete']??[];
+							$toUpdate = $_POST['update']??[];
 
 							?>
 								<div>
@@ -695,8 +696,21 @@
 												exec("rm -rf $dir_repo 2>&1", $output, $return);
 												$output = implode("\n", $output);
 												echo "<pre>gelöscht.</pre>";
-												
 											}else{
+												exec("cd $dir_repo && git fetch origin 2>&1", $output, $return);
+												exec("cd $dir_repo && git status -uno 2>&1", $output, $return);
+												$output = implode("\n", $output);
+												if (strpos($output, 'Changes not staged for commit') !== false) {
+													echo "<h3>🚨 Achtung: Lokale Änderungen beachten</h3>";
+												}elseif (strpos($output, 'behind') !== false) {
+													?>
+													<p>Auf Github ist eine neue Version verfügbar.</p>
+													<label>
+														<input type="checkbox" name="update[]" value="<?=$repo->name?>">
+														«<?=$repo->name?>»-Version an Github angleichen
+													</label>
+													<?php
+												}
 											?>
 												<label>
 													<input type="checkbox" name="delete[]" value="<?=$repo->name?>">
