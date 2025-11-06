@@ -516,7 +516,7 @@
 				<h1>
 					<strong class="gws">GWS</strong> GIT
 				</h1>
-				<div class="gws-repos">
+				<form action="?page=gws-debugian" method="post" class="gws-repos">
 					<div>
 						<h2>
 							Debugian
@@ -554,7 +554,7 @@
 								echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
 							}
 
-							echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
+							echo "<pre>$output</pre>";
 						?>
 					</div>
 
@@ -624,7 +624,7 @@
 								echo "🤷 - ruf rene: ia ia rnhulhu pfthoffn";
 							}
 
-							echo "<pre style='font-size:.8em;line-height:1.5;'>$output</pre>";
+							echo "<pre>$output</pre>";
 						?>
 					</div>
 					<?php
@@ -643,24 +643,43 @@
 						$response = file_get_contents($url, false, $context);
 
 						if ($response === false) {
-							die("Error fetching data");
+							echo "Fehler beim Abrufen der Repositories.";
 						}
 
-						echo $response;
 						$repos = json_decode($response);
 						foreach ($repos as $repo) {
 							if(in_array($repo->name, ['GWS-Debugian', 'Gally-Access'])) continue;
+							$url_repo = $repo->git_url;
+							$dir_repo = escapeshellarg(__DIR__.'/dependencies/'.$repo->name);
+
 							?>
 								<div>
 									<h2>
 										<?=$repo->name?>
 									</h2>
 									<p><?=$repo->description?></p>
+									<?php if(!is_dir(__DIR__.'/dependencies/'.$repo->name)){ ?>
+										<label>
+											<input type="checkbox" name="clone[]" value="<?=$repo->name?>">
+											installieren
+										</label>
+									<?php } else { ?>
+										<label>
+											<input type="checkbox" name="delete[]" value="<?=$repo->name?>">
+											löschen
+										</label>
+									<?php } ?>
+											
+
+
 								</div>
 							<?php
 						}
 					?>
-				</div>
+					<p class="submit">
+						<input type="submit" name="submit_debugian_repos" id="submit_debugian_repos" class="button button-primary" value="GIT-Aktionen ausführen">
+					</p>
+				</form>
 			<?php endif; ?>
 			
 			<?php if($superadmin && !isset($_GET['edit'])): ?>
