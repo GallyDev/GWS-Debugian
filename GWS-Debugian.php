@@ -22,8 +22,11 @@
 	if(!defined('SUPERADMIN_DOMAIN')) 		define('SUPERADMIN_DOMAIN', 'gally-websolutions');
 	if(!defined('GWS_DEBUGIAN_AUTOUPDATE')) define('GWS_DEBUGIAN_AUTOUPDATE', false);
 
-	$dependencies = glob(__DIR__.'/dependencies/*/functions.php');
-	var_export($dependencies);
+	$deps = glob(__DIR__.'/dependencies/*/functions.php');
+	foreach ($deps as $dep) {
+		include_once($dep);
+	}
+	
 	
 
 	if (strpos(__DIR__, GWS_DEBUGIAN_DEV) !== false) {
@@ -528,7 +531,7 @@
 							$repo_Gian = escapeshellarg('https://github.com/GallyDev/GWS-Debugian.git');
 							$dir_Gian = escapeshellarg(__DIR__);
 
-							if(isset($_GET['debugian_update'])){
+							if(isset($_POST['perform_debugian_update']) && $_POST['perform_debugian_update'] == '1'){
 								$git = "cd $dir_Gian && git pull origin main 2>&1";
 
 								exec($git, $output, $return_var);
@@ -549,7 +552,11 @@
 							if (strpos($output, 'behind') !== false) {
 								?>
 									<p>Auf Github ist eine neue Version verfügbar.</p>
-									<a href="?page=gws-debugian&debugian_update" class="button button-primary">«Debugian»-Version an Github angleichen</a>
+									<label>
+										<input type="checkbox" name="perform_debugian_update" value="1">
+										«Debugian»-Version an Github angleichen
+									</label>
+									<!-- <a href="?page=gws-debugian&debugian_update" class="button button-primary">«Debugian»-Version an Github angleichen</a> -->
 								<?php
 							} elseif (strpos($output, 'up to date') !== false) {
 								echo "aktuell";
@@ -578,7 +585,7 @@
 							
 							$dir_GA = escapeshellarg($dir_GA);
 
-							if(isset($_GET['gally_access_update'])){
+							if(isset($_POST['perform_gally_access_update']) && $_POST['perform_gally_access_update'] == '1'){
 								$git = "cd $dir_GA && git pull origin main 2>&1";
 
 								exec($git, $output, $return_var);
@@ -619,7 +626,11 @@
 							if (strpos($output, 'behind') !== false) {
 								?>
 									<p>Auf Github ist eine neue Version verfügbar.</p>
-									<a href="?page=gws-debugian&gally_access_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a>
+									<label>
+										<input type="checkbox" name="perform_gally_access_update" value="1">
+										«Gally Access»-Version an Github angleichen
+									</label>
+									<!-- <a href="?page=gws-debugian&gally_access_update" class="button button-primary">«Gally Access»-Version an Github angleichen</a> -->
 								<?php
 							} elseif (strpos($output, 'up to date') !== false) {
 								echo "aktuell";
