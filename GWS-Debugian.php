@@ -628,7 +628,26 @@
 						?>
 					</div>
 					<?php
-						$repos = json_decode(file_get_contents('https://api.github.com/users/GallyDev/repos'));
+
+						$url = "https://api.github.com/users/GallyDev/repos";
+
+						$options = [
+							"http" => [
+								"header" => [
+									"User-Agent: PHP"
+								]
+							]
+						];
+
+						$context = stream_context_create($options);
+						$response = file_get_contents($url, false, $context);
+
+						if ($response === false) {
+							die("Error fetching data");
+						}
+
+						echo $response;
+						$repos = json_decode($response);
 						foreach ($repos as $repo) {
 							if(in_array($repo->name, ['GWS-Debugian', 'Gally-Access'])) continue;
 							?>
