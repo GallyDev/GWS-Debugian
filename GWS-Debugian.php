@@ -649,7 +649,7 @@
 						$repos = json_decode($response);
 						foreach ($repos as $repo) {
 							if(in_array($repo->name, ['GWS-Debugian', 'Gally-Access'])) continue;
-							$url_repo = $repo->git_url;
+							$url_repo = $repo->clone_url;
 							$dir_repo = escapeshellarg(__DIR__.'/dependencies/'.$repo->name);
 
 							$toClone = $_POST['clone']??[];
