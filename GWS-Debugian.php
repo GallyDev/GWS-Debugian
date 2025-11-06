@@ -652,18 +652,31 @@
 							$url_repo = $repo->git_url;
 							$dir_repo = escapeshellarg(__DIR__.'/dependencies/'.$repo->name);
 
+							$toClone = $_POST['clone']??[];
+							$toDelete = $_POST['delete']??[];
+
 							?>
 								<div>
 									<h2>
 										<?=$repo->name?>
 									</h2>
 									<p><?=$repo->description?></p>
-									<?php if(!is_dir(__DIR__.'/dependencies/'.$repo->name)){ ?>
-										<label>
-											<input type="checkbox" name="clone[]" value="<?=$repo->name?>">
-											installieren
-										</label>
-									<?php } else { ?>
+									<?php 
+										if(!is_dir(__DIR__.'/dependencies/'.$repo->name)){ 
+											if(in_array($repo->name, $toClone)){
+												$git = "git clone ".escapeshellarg($url_repo)." $dir_repo 2>&1";
+												exec($git, $output, $return_var);
+												$output = implode("\n", $output);
+												echo "<pre>Install:\n<small>$git</small>\n\n$output</pre>";
+											}else{
+											?>
+												<label>
+													<input type="checkbox" name="clone[]" value="<?=$repo->name?>">
+													installieren
+												</label>
+											<?php
+											}
+										} else { ?>
 										<label>
 											<input type="checkbox" name="delete[]" value="<?=$repo->name?>">
 											löschen
@@ -676,9 +689,9 @@
 							<?php
 						}
 					?>
-					<p class="submit">
+					<span>
 						<input type="submit" name="submit_debugian_repos" id="submit_debugian_repos" class="button button-primary" value="GIT-Aktionen ausführen">
-					</p>
+					</span>
 				</form>
 			<?php endif; ?>
 			

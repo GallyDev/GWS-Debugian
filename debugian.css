@@ -11,8 +11,20 @@
 	border: 1px solid #aaa;
 	border-radius: 5px;
 }
+.gws-repos span {
+	width: 100%;
+	display: none;
+}
+.gws-repos:has(input[type="checkbox"]:checked) span {
+	display: block;
+}
 
 .gws-repos pre{
 	font-size:.8em;
 	line-height:1.5;
+}
+.gws-repos label{
+	display: block;
+	font-weight: bold;
+	margin-top: 10px;
 }
