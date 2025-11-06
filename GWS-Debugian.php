@@ -676,15 +676,22 @@
 												</label>
 											<?php
 											}
-										} else { ?>
-										<label>
-											<input type="checkbox" name="delete[]" value="<?=$repo->name?>">
-											löschen
-										</label>
-									<?php } ?>
-											
-
-
+										} else { 
+											if(in_array($repo->name, $toDelete)){
+												exec("rm -rf $dir_repo 2>&1", $output, $return);
+												$output = implode("\n", $output);
+												echo "<pre>Delete:\n\n$output</pre>";
+												
+											}else{
+											?>
+												<label>
+													<input type="checkbox" name="delete[]" value="<?=$repo->name?>">
+													löschen
+												</label>
+											<?php
+											}
+										}
+									?>
 								</div>
 							<?php
 						}
