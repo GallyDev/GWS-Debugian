@@ -4,7 +4,7 @@
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
 		Version: 1.6.0
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.6.0');
+	define('GWS_DEBUGIAN_VERSION', '1.6.1');
 
 	if(!defined('ABSPATH')) {
 		exit; // Exit if accessed directly
@@ -676,6 +676,7 @@
 										<?=$repo->name?>
 									</h2>
 									<p><?=$repo->description?></p>
+									<p><a href="<?=$repo->html_url?>" class="page-title-action" target="_blank">Doku auf GitHub anschauen</a></p>
 									<?php 
 										if(!is_dir(__DIR__.'/dependencies/'.$repo->name)){ 
 											if(in_array($repo->name, $toClone)){
