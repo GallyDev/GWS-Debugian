@@ -19,6 +19,16 @@
 		margin-bottom:0;
 	}
 }
+
+.gws-repos div p{
+	margin: 0;
+	height: 100%;
+}
+.gws-repos div {
+	display: flex;
+	flex-direction: column;
+}
+
 .gws-repos span {
 	width: 100%;
 	display: none;
