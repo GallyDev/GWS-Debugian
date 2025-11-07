@@ -2,7 +2,7 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.6.0
+		Version: 1.6.1
 	*/
 	define('GWS_DEBUGIAN_VERSION', '1.6.1');
 
