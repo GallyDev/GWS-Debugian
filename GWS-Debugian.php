@@ -692,9 +692,9 @@
 								<div>
 									<h2>
 										<?=$repo->name?>
+										<a href="<?=$repo->html_url?>" class="page-title-action" target="_blank">Doku</a>
 									</h2>
 									<p><?=$repo->description?></p>
-									<p><a href="<?=$repo->html_url?>" class="page-title-action" target="_blank">Doku auf GitHub anschauen</a></p>
 									<?php 
 										if(!is_dir(__DIR__.'/dependencies/'.$repo->name)){ 
 											if(in_array($repo->name, $toClone)){
