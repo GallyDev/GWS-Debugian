@@ -522,6 +522,24 @@
 				<h1>
 					<strong class="gws">GWS</strong> GIT
 				</h1>
+				<?php if($_GET['rebase'] == 'force'){
+					exec("cd ".__DIR__."
+					git config pull.rebase true
+					git pull
+					git status", $output, $return);
+					echo "<pre>";
+					print_r($output);
+					echo "</pre>";
+
+					exec("cd ".__DIR__."/dependencies/gally_access/
+					git config pull.rebase true
+					git pull
+					git status", $output, $return);
+					echo "<pre>";
+					print_r($output);
+					echo "</pre>";
+				}
+				?>
 				<form action="?page=gws-debugian" method="post" class="gws-repos">
 					<div>
 						<h2>
