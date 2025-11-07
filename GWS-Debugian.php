@@ -522,7 +522,7 @@
 				<h1>
 					<strong class="gws">GWS</strong> GIT
 				</h1>
-				<?php if($_GET['rebase'] == 'force'){
+				<?php if(isset($_GET['rebase']) && $_GET['rebase'] == 'force'){
 					exec("cd ".__DIR__."
 					git config pull.rebase true
 					git pull
