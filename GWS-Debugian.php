@@ -482,9 +482,6 @@
 		
 		$superadmin = strpos(wp_get_current_user()->user_email, SUPERADMIN_DOMAIN);
 
-		$url = get_site_url();
-		$url = str_replace(['https://', 'http://', '/'], '', $url);
-
 		?>
 		<div class="wrap">
 
@@ -765,6 +762,9 @@
 				<?php } else { ?>
 					<?php if(isset($_GET['pingBaguette'])): ?>
 						<?php
+
+							$url = get_site_url();
+							$url = str_replace(['https://', 'http://', '/'], '', $url);
 							$link = str_replace(['https://', 'http://', 'www.'], '', $url);
 							$obj = file_get_contents('https://www.gally-websolutions.com/?baguette='.$link.'&version='.GWS_DEBUGIAN_VERSION);
 							$obj = json_decode($obj);
