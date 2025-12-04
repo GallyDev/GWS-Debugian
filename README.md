@@ -1,4 +1,4 @@
-# GWS-Debugian - 1.6.2
+# GWS-Debugian - 1.6.3
 Debugian, der Liebe Debughelfer von Gally Websolutions fügt folgende Features hinzu:
 
 ## Frontend

@@ -2,9 +2,13 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.6.2
+		Version: 1.6.3
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.6.2');
+	define('GWS_DEBUGIAN_VERSION', '1.6.3');
+	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
+	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
+	// The Git-Messages must be in german
+	
 
 	if(!defined('ABSPATH')) {
 		exit; // Exit if accessed directly
@@ -21,6 +25,8 @@
 	if(!defined('GWS_DEBUGIAN_DEV')) 		define('GWS_DEBUGIAN_DEV', 'devdocs');
 	if(!defined('SUPERADMIN_DOMAIN')) 		define('SUPERADMIN_DOMAIN', 'gally-websolutions');
 	if(!defined('GWS_DEBUGIAN_AUTOUPDATE')) define('GWS_DEBUGIAN_AUTOUPDATE', false);
+	if(!defined('GWS_CAPTCHA_TIME')) 		define('GWS_CAPTCHA_TIME', 18);
+
 
 	$deps = glob(__DIR__.'/dependencies/*/functions.php');
 	foreach ($deps as $dep) {
@@ -113,7 +119,7 @@
 					$field->failed_validation = true;
 					$retmsg = __('Bitte den Code eingeben.', 'gws-debugian');
 				}
-				if(time() - $_SESSION['gws_captcha_time'] < 18) {
+				if(time() - $_SESSION['gws_captcha_time'] < GWS_CAPTCHA_TIME) {
 					$field->failed_validation = true;
 					if($retmsg == '') {
 						$retmsg = __('Die Eingabe ist zu schnell.', 'gws-debugian')  .  ' - Fehler Code: ' . time() - $_SESSION['gws_captcha_time'];
