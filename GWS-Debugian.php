@@ -780,10 +780,10 @@
 					foreach ($themes as $theme) {
 						?>
 							<form action="?page=gws-debugian&theme=<?=$theme->name?>" method="post">
-								<div>
+								<strong>
 									<?= str_replace('GWS-WPT-', '', $theme->name) ?>
-									<a href="<?=$theme->html_url?>" target="_blank">Repository anzeigen</a>
-								</div>
+								</strong>
+								<a href="<?=$theme->html_url?>" target="_blank">Repository anzeigen</a>
 								<input type="text" placeholder="Theme Ordnername" name="theme_folder" required>
 								<input type="submit" name="theme_install" class="button button-primary" value="Theme installieren">
 							</form>

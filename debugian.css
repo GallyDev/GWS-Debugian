@@ -19,6 +19,9 @@
 		margin-bottom:0;
 	}
 }
+.gws-repos>form{
+	gap: 10px;
+}
 
 .gws-repos>* p{
 	margin: 0;
