@@ -5,7 +5,7 @@
 	margin-bottom: 20px;
 }
 
-.gws-repos>* {
+.gws-repos>:not(span) {
 	background: #fff;
 	padding: 10px;
 	border: 1px solid #aaa;
