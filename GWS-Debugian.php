@@ -553,6 +553,14 @@
 							$dir_Gian = escapeshellarg(__DIR__);
 
 							if(isset($_POST['perform_debugian_update']) && $_POST['perform_debugian_update'] == '1'){
+								// unset all possible local changes to prevent
+								// error: cannot pull with rebase: You have unstaged changes.
+								// error: Please commit or stash them.
+								$git = "cd $dir_Gian && git reset --hard HEAD 2>&1";
+								exec($git, $output, $return_var);
+								$output = implode("\n", $output);
+
+
 								$git = "cd $dir_Gian && git pull origin main 2>&1";
 
 								exec($git, $output, $return_var);
@@ -781,7 +789,7 @@
 					}
 
 				?>
-				</form>
+				</div>
 
 				<h1>
 					<strong class="gws">GWS</strong> Baguette
