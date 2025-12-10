@@ -4,7 +4,7 @@
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
 		Version: 1.6.3
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.6.3');
+	define('GWS_DEBUGIAN_VERSION', '1.7.0.beta');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -682,8 +682,15 @@
 						}
 
 						$repos = json_decode($response);
+						$themes = [];
 						foreach ($repos as $repo) {
 							if(in_array($repo->name, ['GWS-Debugian', 'Gally-Access'])) continue;
+
+							if(strpos($repo->name, 'GWS-WPT') === 0){
+								$themes[] = $repo;
+								continue;
+							}
+
 							$url_repo = $repo->clone_url;
 							$dir_repo = escapeshellarg(__DIR__.'/dependencies/'.$repo->name);
 
@@ -756,9 +763,26 @@
 						<input type="submit" name="submit_debugian_repos" id="submit_debugian_repos" class="button button-primary" value="GIT-Aktionen ausführen">
 					</span>
 				</form>
-			<?php endif; ?>
-			
-			<?php if($superadmin && !isset($_GET['edit'])): ?>
+				
+				<h2>
+					Themes
+				</h2>
+				<div class="gws-repos">
+				<?php
+					foreach ($themes as $theme) {
+						?>
+							<form action="?page=gws-debugian&theme=<?=$theme->name?>" method="post">
+								<h3><?= str_replace('GWS-WPT-', '', $theme->name) ?></h3>
+								<a href="<?=$theme->html_url?>" class="page-title-action" target="_blank">Repository anzeigen</a>
+								<input type="text" placeholder="Theme Ordnername" name="theme_folder" required>
+								<input type="submit" name="theme_install" class="button button-primary" value="Theme installieren">
+							</form>
+						<?php
+					}
+
+				?>
+				</form>
+
 				<h1>
 					<strong class="gws">GWS</strong> Baguette
 				</h1>

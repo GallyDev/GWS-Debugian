@@ -20,11 +20,11 @@
 	}
 }
 
-.gws-repos div p{
+.gws-repos>* p{
 	margin: 0;
 	height: 100%;
 }
-.gws-repos div {
+.gws-repos>* {
 	display: flex;
 	flex-direction: column;
 }
@@ -52,14 +52,14 @@
 	float:right;
 }
 
-.gws-repos div:has([name="delete[]"]:checked) {
+.gws-repos>*:has([name="delete[]"]:checked) {
 	opacity: 0.5;
 	text-decoration: line-through;
 	text-decoration-color: red;
 }
-.gws-repos div:has([name="delete[]"]) h2:before{
+.gws-repos>*:has([name="delete[]"]) h2:before{
 	content: "✅ ";
 }
-.gws-repos div:has([name*="update"]) h2:before{
+.gws-repos>*:has([name*="update"]) h2:before{
 	content: "⬆️ ";
 }
