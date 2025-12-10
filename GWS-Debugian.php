@@ -783,6 +783,7 @@
 								<strong>
 									<?= str_replace('GWS-WPT-', '', $theme->name) ?>
 								</strong>
+								<div><?= $theme->description ?></div>
 								<a href="<?=$theme->html_url?>" target="_blank">Repository anzeigen</a>
 								<input type="text" placeholder="Theme Ordnername" name="theme_folder" required>
 								<input type="submit" name="theme_install" class="button button-primary" value="Theme installieren">
