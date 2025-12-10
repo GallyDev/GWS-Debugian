@@ -778,15 +778,33 @@
 				<div class="gws-repos">
 				<?php
 					foreach ($themes as $theme) {
+						$ret = '';
+						if($_GET['theme'] == $theme->name && isset($_POST['theme_install'])){
+							$theme_folder = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['theme_folder']);
+							$repo_theme = escapeshellarg($theme->clone_url);
+							$dir_theme = escapeshellarg(__DIR__.'/../../themes/'.$theme_folder);
+
+							$git = "git clone $repo_theme $dir_theme 2>&1";
+							exec($git, $output, $return_var);
+							$output = implode("\n", $output);
+							$ret .= "<pre>Theme Install:\n<small>$git</small>\n\n$output</pre>";
+							$ret .= '<a href="/wp-admin/themes.php" class="button button-primary">Zum den Themes</a>';
+						}
+
+
 						?>
 							<form action="?page=gws-debugian&theme=<?=$theme->name?>" method="post">
 								<strong>
 									<?= str_replace('GWS-WPT-', '', $theme->name) ?>
 								</strong>
 								<div><?= $theme->description ?></div>
-								<a href="<?=$theme->html_url?>" target="_blank">Repository anzeigen</a>
-								<input type="text" placeholder="Theme Ordnername" name="theme_folder" required>
-								<input type="submit" name="theme_install" class="button button-primary" value="Theme installieren">
+								<?php if($ret != '') {
+									echo $ret;
+								} else{ ?>
+									<a href="<?=$theme->html_url?>" target="_blank">Repository anzeigen</a>
+									<input type="text" placeholder="Theme Ordnername" name="theme_folder" required>
+									<input type="submit" name="theme_install" class="button button-primary" value="Theme installieren">
+								<?php } ?>
 							</form>
 						<?php
 					}
