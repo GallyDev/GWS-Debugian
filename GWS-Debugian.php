@@ -780,13 +780,21 @@
 					foreach ($themes as $theme) {
 						$ret = '';
 						if($_GET['theme'] == $theme->name && isset($_POST['theme_install'])){
-							$theme_folder = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['theme_folder']);
+							$theme_folder = $_POST['theme_name'];
+							$theme_folder = preg_replace('/\s+/', '-', $theme_folder);
+							$theme_folder = 'GWS-'.preg_replace('/[^a-zA-Z0-9]/', '', $theme_folder);
 							$repo_theme = escapeshellarg($theme->clone_url);
 							$dir_theme = escapeshellarg(__DIR__.'/../../themes/'.$theme_folder);
 
 							$git = "git clone $repo_theme $dir_theme 2>&1";
 							exec($git, $output, $return_var);
 							$output = implode("\n", $output);
+
+							$basefile = file_get_contents(__DIR__.'/../../themes/'.$theme_folder.'/style.css');
+							$basefile = preg_replace('/^Theme Name: .*/m', 'Theme Name: '.$_POST['theme_name'], $basefile, 1);
+							file_put_contents(__DIR__.'/../../themes/'.$theme_folder.'/style.css', $basefile);
+
+
 							$ret .= "<pre>Theme Install:\n<small>$git</small>\n\n$output</pre>";
 							$ret .= '<a href="/wp-admin/themes.php" class="button button-primary">Zum den Themes</a>';
 						}
@@ -802,7 +810,7 @@
 									echo $ret;
 								} else{ ?>
 									<a href="<?=$theme->html_url?>" target="_blank">Repository anzeigen</a>
-									<input type="text" placeholder="Theme Ordnername" name="theme_folder" required>
+									<input type="text" placeholder="Theme Name" name="theme_name" required>
 									<input type="submit" name="theme_install" class="button button-primary" value="Theme installieren">
 								<?php } ?>
 							</form>
