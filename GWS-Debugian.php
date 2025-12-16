@@ -4,7 +4,7 @@
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
 		Version: 1.6.3
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.7.0.beta-2');
+	define('GWS_DEBUGIAN_VERSION', '1.7.1');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -781,8 +781,9 @@
 						$ret = '';
 						if($_GET['theme'] == $theme->name && isset($_POST['theme_install'])){
 							$theme_folder = $_POST['theme_name'];
-							$theme_folder = preg_replace('/\s+/', '-', $theme_folder);
-							$theme_folder = 'GWS-'.preg_replace('/[^a-zA-Z0-9]/', '', $theme_folder);
+							$theme_folder = preg_replace('/[\s_]+/', '-', $theme_folder);
+							$theme_folder = preg_replace('/-+/', '-', $theme_folder);
+							$theme_folder = 'GWS-'.preg_replace('/[^a-zA-Z0-9\-]/', '', $theme_folder);
 							$repo_theme = escapeshellarg($theme->clone_url);
 							$dir_theme = escapeshellarg(__DIR__.'/../../themes/'.$theme_folder);
 
