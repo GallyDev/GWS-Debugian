@@ -793,6 +793,8 @@
 
 							$basefile = file_get_contents(__DIR__.'/../../themes/'.$theme_folder.'/style.css');
 							$basefile = preg_replace('/^Theme Name: .*/m', 'Theme Name: '.$_POST['theme_name'], $basefile, 1);
+							$copyright =  'Copyright: ©'.date('Y').' Gally Web Solutions GmbH' ;
+							$basefile = preg_replace('/^License: .*/m', "$copyright\nLicense: ", $basefile, 1);
 							file_put_contents(__DIR__.'/../../themes/'.$theme_folder.'/style.css', $basefile);
 
 
