@@ -2,9 +2,9 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.7.5
+		Version: 1.7.6
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.7.5');
+	define('GWS_DEBUGIAN_VERSION', '1.7.6');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -493,6 +493,27 @@
 
 		<?php if($superadmin && !isset($_GET['edit'])): ?>
 			<h1><strong class="gws">GWS</strong> Debugian</h1>
+
+			<?php
+				$url = get_site_url();
+				$parsed_url = parse_url($url);
+				$host = $parsed_url['host'] ?? '';
+
+				if(strpos(__DIR__, GWS_DEBUGIAN_DEV) === false){
+					if (strpos($host, 'dev.') === 0) {
+						?>
+							<p>YO. SORRY 🛑 aber du bist mega eindeutig auf einer DEV-Instanz unterwegs ohne mich vorher informiert zu haben. Was denkst du dir dabei? Du kannst mich doch nicht einfach auf einer DEV-Instanz nutzen ohne mich zu informieren. So denke ich doch, dass ich live bin und bin voll aufgeregt. Aber nun bin ich schlicht und einfach nicht mal echt. Ich bin nicht wütend, nur enttäuscht. 😢 Finde hier heraus, wie du es mir sagen kannst: <a href="https://app.clickup.com/9015213390/v/dc/8cnjfae-4035/8cnjfae-1215?block=block-02053606-fbe0-41ee-b7f4-b3de58217b91" target="_blank">ClickUp-Wissensdatenbanklink</a></p>
+						<?php
+					}elseif (strpos($host, 'www.') !== 0) {
+						?>
+							<p><strong>Achtung:</strong> Deine Domain beginnt nicht mit WWW und das könnte ein Indiz dafür sein, dass du auf einer DEV-Domain bist. Falls das tatsächlich eine DEV-Instanz ist: WARUM hast du mir das nicht vorher gesagt? 😢 Finde hier heraus, wie du es mir sagen kannst: <a href="https://app.clickup.com/9015213390/v/dc/8cnjfae-4035/8cnjfae-1215?block=block-02053606-fbe0-41ee-b7f4-b3de58217b91" target="_blank">ClickUp-Wissensdatenbanklink</a></p>
+						<?php
+					}
+				}
+
+			?>
+
+
 				<form method="post" action="?page=gws-debugian">
 					
 					<table class="form-table" role="presentation">
@@ -853,14 +874,10 @@
 					<?php else: ?>
 						<a href="/wp-admin/options-general.php?page=gws-debugian&pingBaguette" class="page-title-action">Baguette informieren</a>
 						<?php
-							$url = get_site_url();
-							$parsed_url = parse_url($url);
-							$host = $parsed_url['host'] ?? '';
 
 							if (strpos($host, 'www.') !== 0) {
 								?>
 									<p><strong>Achtung:</strong> Deine Domain beginnt nicht mit WWW und das könnte ein Indiz dafür sein, dass du auf einer DEV-Domain bist. Baguette interessiert sich leider zum Glück nicht für DEV-Instanzen. Wenn das eine DEV-Instanz ist und du Baguette trotzdem informierst, wird sie dich finden und verhauen. 😡 Ja, so ist Baguette.</p>
-									<p>Falls es übrigens tatsächlich eine DEV-Instanz ist: WARUM hast du mir das nicht vorher gesagt? 😢 Finde hier heraus, wie du es mir sagen kannst: <a href="https://app.clickup.com/9015213390/v/dc/8cnjfae-4035/8cnjfae-1215?block=block-02053606-fbe0-41ee-b7f4-b3de58217b91" target="_blank">ClickUp-Wissensdatenbanklink</a></p>
 								<?php
 							}
 						?>
