@@ -1,11 +1,13 @@
 <?php 
 	session_start();
-	define('GWS_DASH_VERSION', '1.3.5');
+	define('GWS_DASH_VERSION', '1.3.6');
 
 
 	add_action('admin_menu', 'gws_dashboard_settings_menu');
 	function gws_dashboard_settings_menu() {
-		add_options_page('GWS Dashboard', '<strong class="gws">GWS</strong> Dashboard', 'manage_options', 'gws-dashboard', 'gws_dashboard_settings');
+		if(strpos(wp_get_current_user()->user_email, SUPERADMIN_DOMAIN)){
+			add_options_page('GWS Dashboard', '<strong class="gws">GWS</strong> Dashboard', 'manage_options', 'gws-dashboard', 'gws_dashboard_settings');
+		}
 	}
 
 	add_action('admin_enqueue_scripts', function ($hook) {
