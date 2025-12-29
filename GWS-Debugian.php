@@ -2,9 +2,9 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.7.4
+		Version: 1.7.5
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.7.4');
+	define('GWS_DEBUGIAN_VERSION', '1.7.5');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -852,6 +852,18 @@
 						</div>
 					<?php else: ?>
 						<a href="/wp-admin/options-general.php?page=gws-debugian&pingBaguette" class="page-title-action">Baguette informieren</a>
+						<?php
+							$url = get_site_url();
+							$parsed_url = parse_url($url);
+							$host = $parsed_url['host'] ?? '';
+
+							if (strpos($host, 'www.') !== 0) {
+								?>
+									<p><strong>Achtung:</strong> Deine Domain beginnt nicht mit WWW und das könnte ein Indiz dafür sein, dass du auf einer DEV-Domain bist. Baguette interessiert sich leider zum Glück nicht für DEV-Instanzen. Wenn das eine DEV-Instanz ist und du Baguette trotzdem informierst, wird sie dich finden und verhauen. 😡 Ja, so ist Baguette.</p>
+									<p>Falls es übrigens tatsächlich eine DEV-Instanz ist: WARUM hast du mir das nicht vorher gesagt? 😢 Finde hier heraus, wie du es mir sagen kannst: <a href="https://app.clickup.com/9015213390/v/dc/8cnjfae-4035/8cnjfae-1215?block=block-02053606-fbe0-41ee-b7f4-b3de58217b91" target="_blank">ClickUp-Wissensdatenbanklink</a></p>
+								<?php
+							}
+						?>
 					<?php endif; ?>
 				<?php } ?>
 				<br><br>
