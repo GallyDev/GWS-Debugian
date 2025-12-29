@@ -2,9 +2,9 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.7.6
+		Version: 1.7.7
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.7.6');
+	define('GWS_DEBUGIAN_VERSION', '1.7.7');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -500,7 +500,8 @@
 				$host = $parsed_url['host'] ?? '';
 
 				if(strpos(__DIR__, GWS_DEBUGIAN_DEV) === false){
-					if (strpos($host, 'dev.') === 0) {
+					if (strpos($host, 'dev.') === 0
+					 || strpos($host, 'sui-inter') > 0) {
 						?>
 							<p>YO. SORRY 🛑 aber du bist mega eindeutig auf einer DEV-Instanz unterwegs ohne mich vorher informiert zu haben. Was denkst du dir dabei? Du kannst mich doch nicht einfach auf einer DEV-Instanz nutzen ohne mich zu informieren. So denke ich doch, dass ich live bin und bin voll aufgeregt. Aber nun bin ich schlicht und einfach nicht mal echt. Ich bin nicht wütend, nur enttäuscht. 😢 Finde hier heraus, wie du es mir sagen kannst: <a href="https://app.clickup.com/9015213390/v/dc/8cnjfae-4035/8cnjfae-1215?block=block-02053606-fbe0-41ee-b7f4-b3de58217b91" target="_blank">ClickUp-Wissensdatenbanklink</a></p>
 						<?php
