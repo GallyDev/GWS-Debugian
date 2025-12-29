@@ -525,7 +525,7 @@
 				<h1>
 					<strong class="gws">GWS</strong> GIT
 				</h1>
-				<p><strong> Mantra: Wir installieren Module erst, wenn wir sie auch tatsächlich nutzen. </p>
+				<p><strong>Mantra:</strong> Wir installieren Module erst, wenn wir sie auch tatsächlich nutzen. </p>
 				<?php if(isset($_GET['rebase']) && $_GET['rebase'] == 'force'){
 					exec("cd ".__DIR__."
 					git config pull.rebase true
