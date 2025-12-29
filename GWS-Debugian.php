@@ -2,9 +2,9 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.7.3
+		Version: 1.7.4
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.7.3');
+	define('GWS_DEBUGIAN_VERSION', '1.7.4');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -525,6 +525,7 @@
 				<h1>
 					<strong class="gws">GWS</strong> GIT
 				</h1>
+				<p><strong> Mantra: Wir installieren Module erst, wenn wir sie auch tatsächlich nutzen. </p>
 				<?php if(isset($_GET['rebase']) && $_GET['rebase'] == 'force'){
 					exec("cd ".__DIR__."
 					git config pull.rebase true
