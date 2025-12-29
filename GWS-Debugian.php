@@ -683,14 +683,20 @@
 						];
 
 						$context = stream_context_create($options);
-						$response = file_get_contents($url, false, $context);
-
-						if ($response === false) {
-							echo "Fehler beim Abrufen der Repositories.";
+						try {
+							$response = file_get_contents($url, false, $context);
+							if ($response === false) {
+								echo "Fehler beim Abrufen der Repositories.";
+							}
+						} catch (Exception $e) {
+							echo "Fehler beim Abrufen der Repositories: " . $e->getMessage();
 						}
 
 						$repos = json_decode($response);
 						$themes = [];
+						if(!$repos){
+							$repos = [];
+						}
 						foreach ($repos as $repo) {
 							if(in_array($repo->name, ['GWS-Debugian', 'Gally-Access'])) continue;
 
