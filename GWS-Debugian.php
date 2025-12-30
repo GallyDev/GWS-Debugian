@@ -2,9 +2,9 @@
 	/* 
 		Plugin Name: GWS Debugian
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
-		Version: 1.7.7
+		Version: 1.7.8
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.7.7');
+	define('GWS_DEBUGIAN_VERSION', '1.7.8');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -723,6 +723,7 @@
 						foreach ($repos as $repo) {
 							if(in_array($repo->name, ['GWS-Debugian', 'Gally-Access'])) continue;
 
+							if(strpos($repo->name, 'GWS-WPTModule') === 0) continue;
 							if(strpos($repo->name, 'GWS-WPT') === 0){
 								$themes[] = $repo;
 								continue;
