@@ -67,6 +67,8 @@
 	content: "⬆️ ";
 }
 
-.gws-repos code{
-	display:inline-block;
+.gws-repos .code{
+	background: rgb(0 0 0 / 0.08);
+	border-radius: 2px;
+	outline: 2px solid rgb(0 0 0 / 0.08);
 }
