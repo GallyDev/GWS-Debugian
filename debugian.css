@@ -67,8 +67,10 @@
 	content: "⬆️ ";
 }
 
-.gws-repos .code{
+.gws-repos .cd{
 	background: rgb(0 0 0 / 0.08);
 	border-radius: 2px;
 	outline: 2px solid rgb(0 0 0 / 0.08);
+	font-style: normal;
+	font-family: monospace
 }
