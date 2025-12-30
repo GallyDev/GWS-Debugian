@@ -66,3 +66,7 @@
 .gws-repos>*:has([name*="update"]) h2:before{
 	content: "⬆️ ";
 }
+
+.gws-repos code{
+	display:inline-block;
+}
