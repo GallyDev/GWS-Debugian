@@ -5,7 +5,7 @@
 </h1>
 <p><strong>Mantra:</strong> Wir installieren Module erst, wenn wir sie auch tatsächlich nutzen. </p>
 <?php if(isset($_GET['rebase']) && $_GET['rebase'] == 'force'){
-	exec("cd ".__DIR__."
+	exec("cd ".__DIR__."/../
 	git config pull.rebase true
 	git pull
 	git status", $output, $return);
@@ -13,7 +13,7 @@
 	print_r($output);
 	echo "</pre>";
 
-	exec("cd ".__DIR__."/dependencies/gally_access/
+	exec("cd ".__DIR__."/../dependencies/gally_access/
 	git config pull.rebase true
 	git pull
 	git status", $output, $return);
@@ -29,7 +29,7 @@
 		</h2>
 		<?php
 			$repo_Gian = escapeshellarg('https://github.com/GallyDev/GWS-Debugian.git');
-			$dir_Gian = escapeshellarg(__DIR__);
+			$dir_Gian = escapeshellarg(__DIR__.'/../');
 
 			if(isset($_POST['perform_debugian_update']) && $_POST['perform_debugian_update'] == '1'){
 				// unset all possible local changes to prevent
@@ -82,7 +82,7 @@
 		</h2>
 		<?php
 			$repo_GA = escapeshellarg('https://github.com/GallyDev/Gally-Access.git');
-			$dir_GA = __DIR__.'/dependencies/gally_access';
+			$dir_GA = __DIR__.'/../dependencies/gally_access';
 
 			if(!is_dir($dir_GA)){
 				$git = "git clone $repo_GA $dir_GA 2>&1";
@@ -100,7 +100,7 @@
 				$output = implode("\n", $output);
 				echo "<pre>Update:\n<small>$git</small>\n\n$output</pre>";
 				
-				$gally_access = __DIR__.'/../../../gally_access';
+				$gally_access = __DIR__.'/../../../../gally_access';
 				if (is_dir($gally_access)) {
 					$dirs = array_filter(scandir($gally_access), function($item) use ($gally_access) {
 						return is_dir("$gally_access/$item") && !in_array($item, ['.', '..']);
@@ -186,7 +186,7 @@
 			}
 
 			$url_repo = $repo->clone_url;
-			$dir_repo = escapeshellarg(__DIR__.'/dependencies/'.$repo->name);
+			$dir_repo = escapeshellarg(__DIR__.'/../dependencies/'.$repo->name);
 
 			$toClone = $_POST['clone']??[];
 			$toDelete = $_POST['delete']??[];
@@ -200,7 +200,7 @@
 					</h2>
 					<p><?=$repo->description?></p>
 					<?php 
-						if(!is_dir(__DIR__.'/dependencies/'.$repo->name)){ 
+						if(!is_dir(__DIR__.'/../dependencies/'.$repo->name)){ 
 							if(in_array($repo->name, $toClone)){
 								$git = "git clone ".escapeshellarg($url_repo)." $dir_repo 2>&1";
 								exec($git, $output, $return_var);
@@ -271,7 +271,7 @@
 				$theme_folder = preg_replace('/-+/', '-', $theme_folder);
 				$theme_folder = 'GWS-'.preg_replace('/[^a-zA-Z0-9\-]/', '', $theme_folder);
 				$repo_theme = escapeshellarg($theme->clone_url);
-				$dir_theme = escapeshellarg(__DIR__.'/../../themes/'.$theme_folder);
+				$dir_theme = escapeshellarg(__DIR__.'/../../../themes/'.$theme_folder);
 
 				$git = "git clone $repo_theme $dir_theme 2>&1";
 				exec($git, $output, $return_var);
@@ -281,7 +281,7 @@
 				$basefile = preg_replace('/^Theme Name: .*/m', 'Theme Name: '.$_POST['theme_name'], $basefile, 1);
 				$copyright =  'Copyright: © '.date('Y').' Gally Websolutions GmbH' ;
 				$basefile = preg_replace('/^License: .*/m', "$copyright\nLicense: ", $basefile, 1);
-				file_put_contents(__DIR__.'/../../themes/'.$theme_folder.'/style.css', $basefile);
+				file_put_contents(__DIR__.'/../../../themes/'.$theme_folder.'/style.css', $basefile);
 
 
 				$ret .= "<pre>Theme Install:\n<small>$git</small>\n\n$output</pre>";
