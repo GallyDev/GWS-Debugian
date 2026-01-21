@@ -7,7 +7,7 @@
 	define('GWS_DEBUGIAN_VERSION', '1.8.0.alpha.B3');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
-	// The Git-Messages must be in german
+	// The Git-Messages must be in german / don't mention in MESSAGE_INFO that the version has changed, that is implied
 	
 
 	if(!defined('ABSPATH')) {
