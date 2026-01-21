@@ -4,7 +4,7 @@
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
 		Version: 1.8.0
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.8.0.alpha.B3');
+	define('GWS_DEBUGIAN_VERSION', '1.8.0.alpha');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german / don't mention in MESSAGE_INFO that the version has changed, that is implied
@@ -549,7 +549,7 @@
 								<td>
 									<ol>
 									<?php
-										$modules = glob(__DIR__.'/modules/*', GLOB_ONLYDIR);
+										$modules = glob(__DIR__.'/modules/*.php');
 										foreach ($modules as $module) {
 											?>
 												<li><?=basename($module)?></li>
