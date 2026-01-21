@@ -175,6 +175,7 @@
 		$settings = json_decode($settings, true);
 
 		$settings['post_types'] = $_POST['gws_debugian_post_types']??[];
+		$settings['modules'] = $_POST['gws_debugian_modules']??[];
 
 		file_put_contents(__DIR__.'/settings.json', json_encode($settings));
 
@@ -551,8 +552,13 @@
 									<?php
 										$modules = glob(__DIR__.'/modules/*.php');
 										foreach ($modules as $module) {
+											$filename = basename($module);
+											$name = str_replace('.php', '', $filename);
 											?>
-												<li><?=basename($module)?></li>
+												<li>
+													<?=$name?>
+													<input type="hidden" name="gws_debugian_modules[]" value="<?=$name?>">
+												</li>
 											<?php
 										}
 									?>
@@ -563,6 +569,50 @@
 					</table>
 					<p class="submit"><input type="submit" name="submit_debugian" id="submit" class="button button-primary" value="Änderungen speichern"></p>
 				</form>
+
+				<script>
+					// drag and drop to reorder the modules
+					const list = document.querySelector('ol');
+					let dragSrcEl = null;
+					function handleDragStart(e) {
+						dragSrcEl = this;
+						e.dataTransfer.effectAllowed = 'move';
+						e.dataTransfer.setData('text/html', this.innerHTML);
+					}
+					function handleDragOver(e) {
+						if (e.preventDefault) {
+							e.preventDefault();
+						}
+						e.dataTransfer.dropEffect = 'move';
+						return false;
+					}
+					function handleDrop(e) {
+						if (e.stopPropagation) {
+							e.stopPropagation();
+						}
+						if (dragSrcEl != this) {
+							dragSrcEl.innerHTML = this.innerHTML;
+							this.innerHTML = e.dataTransfer.getData('text/html');
+						}
+						return false;
+					}
+					function handleDragEnd(e) {
+						const items = list.querySelectorAll('li');
+						items.forEach(function (item) {
+							item.classList.remove('over');
+						});
+					}
+					const items = list.querySelectorAll('li');
+					items.forEach(function(item) {
+						item.setAttribute('draggable', 'true');
+						item.addEventListener('dragstart', handleDragStart, false);
+						item.addEventListener('dragover', handleDragOver, false);
+						item.addEventListener('drop', handleDrop, false);
+						item.addEventListener('dragend', handleDragEnd, false);
+					});
+					
+				</script>
+
 			<?php endif; ?>
 			
 			
