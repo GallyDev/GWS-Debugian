@@ -4,7 +4,7 @@
 		Description: 👉👈 Hallo ich bin Debugian, der Liebe Debughelfer von Gally Websolutions. uwu
 		Version: 1.8.0
 	*/
-	define('GWS_DEBUGIAN_VERSION', '1.8.0.alpha.B2');
+	define('GWS_DEBUGIAN_VERSION', '1.8.0.alpha.B3');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
 	// The Git-Messages must be in german
@@ -542,15 +542,33 @@
 									}
 								?></td>
 							</tr>
+							<tr>
+								<th scope="row">
+									Debugian Module
+								</th>
+								<td>
+									<ol>
+									<?php
+										$modules = glob(__DIR__.'/modules/*', GLOB_ONLYDIR);
+										foreach ($modules as $module) {
+											?>
+												<li><?=basename($module)?></li>
+											<?php
+										}
+									?>
+									</ol>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 					<p class="submit"><input type="submit" name="submit_debugian" id="submit" class="button button-primary" value="Änderungen speichern"></p>
 				</form>
 			<?php endif; ?>
-				
-			<?php include(__DIR__.'/modules/git.php'); ?>
-			<?php include(__DIR__.'/modules/baguette.php'); ?>			
-			<?php include(__DIR__.'/modules/hosting-info.php'); ?>
+			
+			
+			<?php include(__DIR__.'/modules/git.php'); ?><br><br>
+			<?php include(__DIR__.'/modules/baguette.php'); ?><br><br>		
+			<?php include(__DIR__.'/modules/hosting-info.php'); ?><br><br>
 		</div>
 		<?php
 	}
