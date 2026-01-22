@@ -59,13 +59,14 @@
 
 	function checkIPs () {
 		global $iplist;
+		global $allowlist;
 
 		$ips = file_get_contents($iplist);
 		$ipCount = substr_count($ips, "\n");
 
 		$aios_allowlist = explode('*/',file_get_contents($allowlist));
 		$aios_ips = trim($aios_allowlist[1] ?? '');
-		$aios_count = substr_count($aios_ips, "\n");
+		$aios_count = substr_count($aios_ips, "\n")+1;
 		if(trim($aios_ips) === '') $aios_count = 0;
 
 		return [
