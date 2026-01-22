@@ -33,11 +33,13 @@
 	<?php endif; ?>
 <?php } ?>
 <?php 
+	global $blacklist;
+	global $iplist;
 	$blacklist = 'https://raw.githubusercontent.com/splorp/wordpress-comment-blocklist/refs/heads/master/blacklist.txt';
 	$iplist = 'https://cdn.uptimerobot.com/api/IPv4andIPv6.txt';
 
 	function checkKeywords () {
-		
+		global $blacklist;
 		$keywords = file_get_contents($blacklist);
 		$keywordCount = substr_count($keywords, "\n");
 
@@ -53,7 +55,7 @@
 	}
 
 	function checkIPs () {
-		
+		global $iplist;
 
 		$ips = file_get_contents($iplist);
 		$ipCount = substr_count($ips, "\n");
