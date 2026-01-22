@@ -32,3 +32,18 @@
 		?>
 	<?php endif; ?>
 <?php } ?>
+<?php 
+	$keywords = file_get_contents('https://raw.githubusercontent.com/splorp/wordpress-comment-blocklist/refs/heads/master/blacklist.txt');
+	$keywordCount = substr_count($keywords, "\n");
+
+	// Wordpress Setting disallowed_keys
+	$disallowed_keys = get_option('disallowed_keys', '');
+	$disallowedCount = substr_count($disallowed_keys, "\n");
+	if(trim($disallowed_keys) === '') $disallowedCount = 0;
+?>
+
+<p>
+	Baguette setzt sich für nebenberuflich als Aktivistin gegen Spamkommentare ein. Darum hat sie immer die neusten Infos über Spamkommentare parat.
+	Sie sagt, dass <strong><?= number_format($keywordCount) ?> Spam-Schlüsselwörter</strong>, blockiert werden sollten.
+	Dieses WordPress-Installation hat <strong><?= number_format($disallowedCount) ?> Spam-Schlüsselwörter</strong> in den Einstellungen hinterlegt.
+</p>

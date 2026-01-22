@@ -7,7 +7,7 @@
 	define('GWS_DEBUGIAN_VERSION', '1.8.0.alpha');
 	// MESSAGE_INFO for the Git-Commit-Message: Copilot-Anweisungen für automatische Commit-Nachrichten hinzugefügt
 	// Use this format to generate Git-Commit-Message: "Vx.x.x - MESSAGE_INFO"
-	// The Git-Messages must be in german / don't mention in MESSAGE_INFO that the version has changed, that is implied
+	// The Git-Messages must be in german
 	
 
 	if(!defined('ABSPATH')) {
@@ -491,6 +491,12 @@
 					background: #ddf;
 				}
 			}
+
+			hr{
+				margin: 2em 0;
+				border: none;
+				border-top: 2px dashed #ccc;
+			}
 		</style>
 		<?php
 	}
@@ -580,6 +586,17 @@
 											$modules = $settings['modules'];
 										}
 										$settings['modules'] = $modules;
+
+										if(count($modules) < count($mods)){
+											// add missing modules to the end
+											foreach ($mods as $module) {
+												$filename = basename($module);
+												$name = str_replace('.php', '', $filename);
+												if(!in_array($name, $modules)){
+													$modules[]= $name;
+												}
+											}
+										}
 
 										foreach ($modules as $module) {
 											?>
