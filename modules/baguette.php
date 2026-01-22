@@ -86,11 +86,11 @@
 <?php
 if (isset($_GET['checkKeywords']) || isset($_GET['checkBoth'])) {
 	$data = checkKeywords();
-	//echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die Spam-Blacklist enthält <strong>' . $data['count'] . '</strong> Einträge. In WordPress sind aktuell <strong>' . $data['wp_count'] . '</strong> Keywords hinterlegt.</p></div>';
+	echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die Spam-Blacklist enthält <strong>' . $data['count'] . '</strong> Einträge. In WordPress sind aktuell <strong>' . $data['wp_count'] . '</strong> Keywords hinterlegt.</p></div>';
 }
 
 if (isset($_GET['checkIPs']) || isset($_GET['checkBoth'])) {
 	$data = checkIPs();
-	//echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die UptimeRobot-Liste umfasst <strong>' . $data['count'] . '</strong> IPs. Im AIOWPS-Plugin sind <strong>' . $data['wp_count'] . '</strong> IPs auf der Whitelist.</p></div>';
+	echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die UptimeRobot-Liste umfasst <strong>' . $data['count'] . '</strong> IPs. Im AIOWPS-Plugin sind <strong>' . $data['wp_count'] . '</strong> IPs auf der Whitelist.</p></div>';
 }
 ?>
