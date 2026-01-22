@@ -579,6 +579,7 @@
 										if(isset($settings['modules'])){
 											$modules = $settings['modules'];
 										}
+										$settings['modules'] = $modules;
 
 										foreach ($modules as $module) {
 											?>
@@ -642,10 +643,12 @@
 
 			<?php endif; ?>
 			
-			
-			<?php include(__DIR__.'/modules/git.php'); ?><br><br>
-			<?php include(__DIR__.'/modules/baguette.php'); ?><br><br>		
-			<?php include(__DIR__.'/modules/hosting-info.php'); ?><br><br>
+			<?php
+				foreach($settings['modules'] as $module){
+					include_once(__DIR__.'/modules/'.$module.'.php');
+					echo '<hr>';
+				}
+			?>
 		</div>
 		<?php
 	}
