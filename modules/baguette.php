@@ -56,18 +56,19 @@
 
 	function checkIPs () {
 		global $iplist;
+		$configs = get_option('aio_wp_security_configs');
+		var_export($configs);
 
 		$ips = file_get_contents($iplist);
 		$ipCount = substr_count($ips, "\n");
 
-		// check AIOS whitelisted IPs in the Firewall
-		$wp_ips = get_option('aio_wp_security_firewall_whitelisted_ips', '');
-		$wp_count = substr_count($wp_ips, "\n");
-		if(trim($wp_ips) === '') $wp_count = 0;
+		$aios_ips = $configs['firewall_whitelisted_ips'] ?? '';
+		$aios_count = substr_count($aios_ips, "\n");
+		if(trim($aios_ips) === '') $aios_count = 0;
 
 		return [
 			'count' => $ipCount,
-			'wp_count' => $wp_count
+			'wp_count' => $aios_count
 		];
 	}
 
