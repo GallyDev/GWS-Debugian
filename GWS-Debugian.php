@@ -473,6 +473,24 @@
 			strong.gws{
 				font-family: monospace;
 			}
+
+			.gws-debugian-modules-list{
+				margin: 0;
+				padding: 0;
+				li{
+					cursor: grab;
+					user-select: none;
+					background: #eef;
+					border: 1px solid #ccc;
+					border-radius: .25em;
+					padding: .25em .5em;
+					margin-bottom: .5em;
+					list-style-position: inside;
+				}
+				li:hover{
+					background: #ddf;
+				}
+			}
 		</style>
 		<?php
 	}
@@ -524,7 +542,7 @@
 					<table class="form-table" role="presentation">
 						<tbody>
 							<tr>
-								<th scope="row">
+								<th>
 									Post-Types mit Dokumentname<br>
 									<small>ohne automatisches H1</small>
 								</th>
@@ -544,20 +562,29 @@
 								?></td>
 							</tr>
 							<tr>
-								<th scope="row">
+								<th>
 									Debugian Module
 								</th>
 								<td>
-									<ol>
+									<ol class="gws-debugian-modules-list">
 									<?php
-										$modules = glob(__DIR__.'/modules/*.php');
-										foreach ($modules as $module) {
+										$mods = glob(__DIR__.'/modules/*.php');
+										$modules = [];
+										foreach ($mods as $module) {
 											$filename = basename($module);
 											$name = str_replace('.php', '', $filename);
+											$modules[]= $name;
+										}
+										
+										if(isset($settings['modules'])){
+											$modules = $settings['modules'];
+										}
+
+										foreach ($modules as $module) {
 											?>
 												<li>
-													<?=$name?>
-													<input type="hidden" name="gws_debugian_modules[]" value="<?=$name?>">
+													<?=$module?>
+													<input type="hidden" name="gws_debugian_modules[]" value="<?=$module?>">
 												</li>
 											<?php
 										}
@@ -610,7 +637,7 @@
 						item.addEventListener('drop', handleDrop, false);
 						item.addEventListener('dragend', handleDragEnd, false);
 					});
-					
+
 				</script>
 
 			<?php endif; ?>
