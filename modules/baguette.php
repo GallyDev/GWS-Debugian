@@ -70,6 +70,29 @@
 			'wp_count' => $wp_count
 		];
 	}
+
+	$info = '';
+	if (isset($_POST['submit_spaguetti'])) {
+		$toDo = $_POST['spaguetti']??[];
+		$info .= '<h3>Baguette hat Folgendes erledigt:</h3>';
+		if (in_array('keywords', $toDo)) {
+			$keywords = file_get_contents($blacklist);
+			update_option('disallowed_keys', $keywords);
+			$info .= '<p>- Spam-Keywords aktualisiert.</p>';
+		}
+		if (in_array('ips', $toDo)) {
+			$ips = file_get_contents($iplist);
+			update_option('aio_wp_security_blacklisted_ips', $ips);
+			$info .= '<p>- UptimeRobot IPs in AIOS aktualisiert.</p>';
+		}
+	}
+	if ($info !== '') {
+		?>
+		<div class="notice notice-success is-dismissible">
+			<?= $info ?>
+		</div>
+		<?php
+	}
 ?>
 
 <h2>Baguettes Wachposten</h2>
@@ -101,7 +124,7 @@ if (isset($_GET['checkKeywords']) || isset($_GET['checkBoth'])) {
 if (isset($_GET['checkIPs']) || isset($_GET['checkBoth'])) {
 	$data = checkIPs();
 	?>
-		<div class="notice notice-info is-dismissible">
+		<div>
 			<p>Die UptimeRobot-Liste umfasst <strong><?= $data['count'] ?></strong> IPs. Im AIOWPS-Plugin sind <strong><?= $data['wp_count'] ?></strong> IPs auf der Whitelist.</p>
 
 			<label>
