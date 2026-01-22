@@ -82,15 +82,37 @@
 	<a href="/wp-admin/options-general.php?page=gws-debugian&checkIPs" class="button">UptimeRobot IPs prüfen</a>
 	<a href="/wp-admin/options-general.php?page=gws-debugian&checkBoth" class="button">Beides prüfen</a>
 </p>
-
+<form action="?page=gws-debugian" method="post" class="gws-repos">
 <?php
 if (isset($_GET['checkKeywords']) || isset($_GET['checkBoth'])) {
 	$data = checkKeywords();
-	echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die Spam-Blacklist enthält <strong>' . $data['count'] . '</strong> Einträge. In WordPress sind aktuell <strong>' . $data['wp_count'] . '</strong> Keywords hinterlegt.</p></div>';
+	?>
+		<div>
+			<p>Die Spam-Blacklist enthält <strong><?= $data['count'] ?></strong> Einträge. In WordPress sind aktuell <strong><?= $data['wp_count'] ?></strong> Keywords hinterlegt.</p>
+
+			<label>
+				<input type="checkbox" name="spaguetti[]" value="keywords">
+				Liste angleichen
+			</label>
+		</div>
+	<?php
 }
 
 if (isset($_GET['checkIPs']) || isset($_GET['checkBoth'])) {
 	$data = checkIPs();
-	echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die UptimeRobot-Liste umfasst <strong>' . $data['count'] . '</strong> IPs. Im AIOWPS-Plugin sind <strong>' . $data['wp_count'] . '</strong> IPs auf der Whitelist.</p></div>';
+	?>
+		<div class="notice notice-info is-dismissible">
+			<p>Die UptimeRobot-Liste umfasst <strong><?= $data['count'] ?></strong> IPs. Im AIOWPS-Plugin sind <strong><?= $data['wp_count'] ?></strong> IPs auf der Whitelist.</p>
+
+			<label>
+				<input type="checkbox" name="spaguetti[]" value="ips">
+				Liste angleichen
+			</label>
+		</div>
+	<?php
 }
 ?>
+	<span>
+		<input type="submit" name="submit_spaguetti" id="submit_spaguetti" class="button button-primary" value="Baguette beauftragen">
+	</span>
+</form>
