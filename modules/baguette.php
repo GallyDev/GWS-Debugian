@@ -60,8 +60,8 @@
 		$ips = file_get_contents($iplist);
 		$ipCount = substr_count($ips, "\n");
 
-		// check all in one security whitelist
-		$wp_ips = get_option('aio_wp_security_blacklisted_ips', '');
+		// check AIOS whitelisted IPs in the Firewall
+		$wp_ips = get_option('aio_wp_security_firewall_whitelisted_ips', '');
 		$wp_count = substr_count($wp_ips, "\n");
 		if(trim($wp_ips) === '') $wp_count = 0;
 
@@ -82,7 +82,7 @@
 		}
 		if (in_array('ips', $toDo)) {
 			$ips = file_get_contents($iplist);
-			update_option('aio_wp_security_blacklisted_ips', $ips);
+			update_option('aio_wp_security_firewall_whitelisted_ips', $ips);
 			$info .= '<p>- UptimeRobot IPs in AIOS aktualisiert.</p>';
 		}
 	}
