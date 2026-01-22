@@ -45,7 +45,7 @@
 
 		// Wordpress Setting disallowed_keys
 		$wp_keywords = get_option('disallowed_keys', '');
-		$wp_count = substr_count($wp_keywords, "\n");
+		$wp_count = substr_count($wp_keywords, "\n")+1;
 		if(trim($wp_keywords) === '') $wp_count = 0;
 
 		return [
@@ -112,6 +112,7 @@ if (isset($_GET['checkKeywords']) || isset($_GET['checkBoth'])) {
 	?>
 		<div>
 			<p>Die Spam-Blacklist enthält <strong><?= $data['count'] ?></strong> Einträge. In WordPress sind aktuell <strong><?= $data['wp_count'] ?></strong> Keywords hinterlegt.</p>
+			<p>Das ist ein Unterschied von <strong><?= $data['count'] - $data['wp_count'] ?></strong> Keywords.</p>
 
 			<label>
 				<input type="checkbox" name="spaguetti[]" value="keywords">
@@ -126,7 +127,7 @@ if (isset($_GET['checkIPs']) || isset($_GET['checkBoth'])) {
 	?>
 		<div>
 			<p>Die UptimeRobot-Liste umfasst <strong><?= $data['count'] ?></strong> IPs. Im AIOWPS-Plugin sind <strong><?= $data['wp_count'] ?></strong> IPs auf der Whitelist.</p>
-
+			<p>Das ist ein Unterschied von <strong><?= $data['count'] - $data['wp_count'] ?></strong> IPs.</p>
 			<label>
 				<input type="checkbox" name="spaguetti[]" value="ips">
 				Liste angleichen
