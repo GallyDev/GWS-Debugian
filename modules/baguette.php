@@ -35,8 +35,11 @@
 <?php 
 	global $blacklist;
 	global $iplist;
+	global $allowlist;
 	$blacklist = 'https://raw.githubusercontent.com/splorp/wordpress-comment-blocklist/refs/heads/master/blacklist.txt';
 	$iplist = 'https://cdn.uptimerobot.com/api/IPv4andIPv6.txt';
+	$allowlist = ABSPATH . 'wp-content/uploads/aios/firewall-rules/allowlist.php';
+	
 
 	function checkKeywords () {
 		global $blacklist;
@@ -56,13 +59,12 @@
 
 	function checkIPs () {
 		global $iplist;
-		$configs = get_option('aio_wp_security_configs');
-		var_export($configs);
 
 		$ips = file_get_contents($iplist);
 		$ipCount = substr_count($ips, "\n");
 
-		$aios_ips = $configs['firewall_whitelisted_ips'] ?? '';
+		$aios_allowlist = explode('*/',file_get_contents($allowlist));
+		$aios_ips = trim($aios_allowlist[1] ?? '');
 		$aios_count = substr_count($aios_ips, "\n");
 		if(trim($aios_ips) === '') $aios_count = 0;
 
@@ -83,7 +85,16 @@
 		}
 		if (in_array('ips', $toDo)) {
 			$ips = file_get_contents($iplist);
-			update_option('aio_wp_security_firewall_whitelisted_ips', $ips);
+			$aios_allowlist = explode('*/',file_get_contents($allowlist));
+			$aios_allowlist[1] = "\n".$ips;
+			file_put_contents($allowlist, implode('*/', $aios_allowlist));
+			if (function_exists('aio_wp_security')) {
+				$aio = aio_wp_security();
+				if (method_exists($aio->firewall, 'clear_firewall_rules_cache')) {
+					$aio->firewall->clear_firewall_rules_cache();
+				}
+			}
+			
 			$info .= '<p>- UptimeRobot IPs in AIOS aktualisiert.</p>';
 		}
 	}
