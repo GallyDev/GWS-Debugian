@@ -33,17 +33,62 @@
 	<?php endif; ?>
 <?php } ?>
 <?php 
-	$keywords = file_get_contents('https://raw.githubusercontent.com/splorp/wordpress-comment-blocklist/refs/heads/master/blacklist.txt');
-	$keywordCount = substr_count($keywords, "\n");
+	$blacklist = 'https://raw.githubusercontent.com/splorp/wordpress-comment-blocklist/refs/heads/master/blacklist.txt';
+	$iplist = 'https://cdn.uptimerobot.com/api/IPv4andIPv6.txt';
 
-	// Wordpress Setting disallowed_keys
-	$disallowed_keys = get_option('disallowed_keys', '');
-	$disallowedCount = substr_count($disallowed_keys, "\n");
-	if(trim($disallowed_keys) === '') $disallowedCount = 0;
+	function checkKeywords () {
+		global $blacklist;
+		$keywords = file_get_contents($blacklist);
+		$keywordCount = substr_count($keywords, "\n");
+
+		// Wordpress Setting disallowed_keys
+		$wp_keywords = get_option('disallowed_keys', '');
+		$wp_count = substr_count($wp_keywords, "\n");
+		if(trim($wp_keywords) === '') $wp_count = 0;
+
+		return [
+			'count' => $keywordCount,
+			'wp_count' => $wp_count
+		];
+	}
+
+	function checkIPs () {
+		global $iplist;
+
+		$ips = file_get_contents($iplist);
+		$ipCount = substr_count($ips, "\n");
+
+		// check all in one security whitelist
+		$wp_ips = get_option('aio_wp_security_blacklisted_ips', '');
+		$wp_count = substr_count($wp_ips, "\n");
+		if(trim($wp_ips) === '') $wp_count = 0;
+
+		return [
+			'count' => $ipCount,
+			'wp_count' => $wp_count
+		];
+	}
 ?>
 
+<h2>Baguettes Wachposten</h2>
 <p>
-	Baguette setzt sich für nebenberuflich als Aktivistin gegen Spamkommentare ein. Darum hat sie immer die neusten Infos über Spamkommentare parat.
-	Sie sagt, dass <strong><?= number_format($keywordCount) ?> Spam-Schlüsselwörter</strong>, blockiert werden sollten.
-	Dieses WordPress-Installation hat <strong><?= number_format($disallowedCount) ?> Spam-Schlüsselwörter</strong> in den Einstellungen hinterlegt.
+	Als kleine Familie im Jahr <?= date('Y') ?> muss Baguette leider nebenbei etwas Geld verdienen. 
+	Darum arbeitet sie nebenher auf dem Wachposten. Sie hat darum tiefes Sicherheitswissen über Spam und UptimeRobot.
 </p>
+<p>
+	<a href="/wp-admin/options-general.php?page=gws-debugian&checkKeywords" class="button">Spam-Keywords prüfen</a>
+	<a href="/wp-admin/options-general.php?page=gws-debugian&checkIPs" class="button">UptimeRobot IPs prüfen</a>
+	<a href="/wp-admin/options-general.php?page=gws-debugian&checkBoth" class="button">Beides prüfen</a>
+</p>
+
+<?php
+if (isset($_GET['checkKeywords']) || isset($_GET['checkBoth'])) {
+	$data = checkKeywords();
+	echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die Spam-Blacklist enthält <strong>' . $data['count'] . '</strong> Einträge. In WordPress sind aktuell <strong>' . $data['wp_count'] . '</strong> Keywords hinterlegt.</p></div>';
+}
+
+if (isset($_GET['checkIPs']) || isset($_GET['checkBoth'])) {
+	$data = checkIPs();
+	echo '<div class="notice notice-info is-dismissible"><p>Baguette meldet: Die UptimeRobot-Liste umfasst <strong>' . $data['count'] . '</strong> IPs. Im AIOWPS-Plugin sind <strong>' . $data['wp_count'] . '</strong> IPs auf der Whitelist.</p></div>';
+}
+?>
